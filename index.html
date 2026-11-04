@@ -74,7 +74,9 @@
     document.getElementById('updated').textContent = 'Ledger updated ' + d.updated + '.';
     const tb = document.getElementById('ledger'); tb.innerHTML = '';
     d.entries.forEach(e => { const tr = document.createElement('tr');
-      tr.innerHTML = '<td>'+e.date+'</td><td>'+e.item+'</td><td class="num">'+(e.in?usd(e.in):'')+'</td><td class="num">'+(e.out?usd(e.out):'')+'</td>'; tb.appendChild(tr); });
+      [[String(e.date),''],[String(e.item),''],[e.in?usd(e.in):'','num'],[e.out?usd(e.out):'','num']].forEach(([text,cls]) => {
+        const td = document.createElement('td'); td.textContent = text; if (cls) td.className = cls; tr.appendChild(td); });
+      tb.appendChild(tr); });
   }).catch(()=>{});
 </script>
 </body>
