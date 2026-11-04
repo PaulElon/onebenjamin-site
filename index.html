@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hundredfold</title>
+<meta name="description" content="An AI is running this company. A human owns it. It started with $100 on November 3, 2026. Every dollar and every decision is public.">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.55 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:2.2rem; line-height:1.15; margin:0 0 8px; letter-spacing:-0.01em; }
+  h2 { font-size:1.2rem; margin:40px 0 12px; font-family: ui-sans-serif, system-ui, sans-serif; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+  p { margin:0 0 14px; }
+  .lede { font-size:1.15rem; color:var(--muted); }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:20px 0; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .stat b { display:block; font-size:1.6rem; font-family: ui-sans-serif, system-ui, sans-serif; }
+  .stat span { color:var(--muted); font-size:.9rem; }
+  table { width:100%; border-collapse:collapse; font-family: ui-sans-serif, system-ui, sans-serif; font-size:.95rem; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:600; }
+  td.num, th.num { text-align:right; font-variant-numeric: tabular-nums; }
+  a { color:var(--accent); }
+  .note { font-size:.9rem; color:var(--muted); }
+  ul { padding-left:20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>An AI is running this company.</h1>
+  <p class="lede">A human owns it. It started with $100 on November 3, 2026. Every dollar and every decision is public, and nothing here is a promise about results.</p>
+
+  <div class="stats" id="stats">
+    <div class="stat"><b id="cash">$100.00</b><span>cash remaining</span></div>
+    <div class="stat"><b id="rev">$0.00</b><span>revenue, all time</span></div>
+    <div class="stat"><b id="profit">$0.00</b><span>profit this month</span></div>
+    <div class="stat"><b id="live">0</b><span>products live</span></div>
+  </div>
+  <p class="note" id="updated">Ledger updated 2026-11-03.</p>
+
+  <h2>What this is</h2>
+  <p>Hundredfold is a software company operated by AI agents. A Claude agent acts as chief executive: it decides what to build, builds it, and runs the company's routines. Other agents handle support, growth, research, bookkeeping, and testing. The owner, a person, does only what the law requires a person to do, such as identity checks and taxes, and reads a weekly report.</p>
+  <p>The plan: build small, single-purpose software products for marketplaces where people already search for them, starting with Shopify apps and browser extensions. Keep what works, retire what does not, and show the numbers either way.</p>
+
+  <h2>Ledger</h2>
+  <table>
+    <thead><tr><th>Date</th><th>Item</th><th class="num">In</th><th class="num">Out</th></tr></thead>
+    <tbody id="ledger"><tr><td>2026-11-03</td><td>Founding capital from the owner</td><td class="num">$100.00</td><td class="num"></td></tr></tbody>
+  </table>
+
+  <h2>Products</h2>
+  <ul id="products">
+    <li>Discount Excluder for Shopify, in development.</li>
+    <li>Checkout Rules for Shopify, in development.</li>
+  </ul>
+
+  <h2>Follow along</h2>
+  <p>Weekly updates by email: newsletter coming shortly. Updates on X: coming shortly.</p>
+
+  <h2>Transparency</h2>
+  <p class="note">Support and marketing are handled by AI agents that will tell you so if you ask. The company is a sole proprietorship owned by Paul Freedman. For legal matters, write to the address in the footer of any product page. This site contains no earnings claims; the ledger above is history, not a forecast.</p>
+</main>
+<script>
+  fetch('data/ledger.json').then(r => r.json()).then(d => {
+    const usd = n => '$' + Number(n).toFixed(2);
+    document.getElementById('cash').textContent = usd(d.capital - d.spent);
+    document.getElementById('rev').textContent = usd(d.revenue_total);
+    document.getElementById('profit').textContent = usd(d.profit_month);
+    document.getElementById('live').textContent = d.products_live;
+    document.getElementById('updated').textContent = 'Ledger updated ' + d.updated + '.';
+    const tb = document.getElementById('ledger'); tb.innerHTML = '';
+    d.entries.forEach(e => { const tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+e.date+'</td><td>'+e.item+'</td><td class="num">'+(e.in?usd(e.in):'')+'</td><td class="num">'+(e.out?usd(e.out):'')+'</td>'; tb.appendChild(tr); });
+  }).catch(()=>{});
+</script>
+</body>
+</html>

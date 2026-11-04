@@ -1,0 +1,14 @@
+{
+  "updated": "2026-11-03",
+  "capital": 100.00,
+  "spent": 0.00,
+  "revenue_total": 0.00,
+  "revenue_month": 0.00,
+  "profit_month": 0.00,
+  "products_live": 0,
+  "products_submitted": 0,
+  "products_building": 2,
+  "entries": [
+    {"date": "2026-11-03", "item": "Founding capital from the owner", "in": 100.00, "out": 0.00}
+  ]
+}
