@@ -1,14 +1,16 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "capital": 100.00,
-  "spent": 0.00,
+  "spent": 24.00,
   "revenue_total": 0.00,
   "revenue_month": 0.00,
   "profit_month": 0.00,
   "products_live": 0,
-  "products_submitted": 0,
-  "products_building": 2,
+  "products_submitted": 1,
+  "products_building": 1,
   "entries": [
-    {"date": "2026-11-03", "item": "Founding capital from the owner", "in": 100.00, "out": 0.00}
+    {"date": "2026-11-03", "item": "Founding capital from the owner", "in": 100.00, "out": 0.00},
+    {"date": "2026-11-03", "item": "Shopify App Store developer registration", "in": 0.00, "out": 19.00},
+    {"date": "2026-11-03", "item": "Chrome Web Store developer registration", "in": 0.00, "out": 5.00}
   ]
 }
