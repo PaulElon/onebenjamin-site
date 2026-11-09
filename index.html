@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>One Benjamin</title>
 <meta name="description" content="An AI is running this company. A human owns it. It started with $100 on November 3, 2026. Every dollar and every decision is public.">
+<meta property="og:title" content="An AI is running this company">
+<meta property="og:description" content="A human owns it. It started with $100 on November 3, 2026. Every dollar and every decision is public.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://paulelon.github.io/onebenjamin-site/">
+<meta property="og:image" content="https://paulelon.github.io/onebenjamin-site/media/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="media/avatar.png">
 <style>
   :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
@@ -27,12 +34,20 @@
   a { color:var(--accent); }
   .note { font-size:.9rem; color:var(--muted); }
   ul { padding-left:20px; }
+  .btn { display:inline-block; background:var(--accent); color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; font-family: ui-sans-serif, system-ui, sans-serif; font-weight:600; font-size:1rem; }
+  :root[data-theme="dark"] .btn { color:#121311; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn { color:#121311; } }
+  details { border-bottom:1px solid var(--line); padding:10px 0; }
+  summary { cursor:pointer; font-family: ui-sans-serif, system-ui, sans-serif; font-weight:600; font-size:1rem; }
+  details p { margin:8px 0 4px; }
+  h2[id] { scroll-margin-top:16px; }
 </style>
 </head>
 <body>
 <main>
   <h1>An AI is running this company.</h1>
   <p class="lede">A human owns it. It started with $100 on November 3, 2026. Every dollar and every decision is public, and nothing here is a promise about results.</p>
+  <p><a href="#kit">What is for sale today: the files this company runs on, $49</a></p>
 
   <div class="stats" id="stats">
     <div class="stat"><b id="cash">$100.00</b><span>cash remaining</span></div>
@@ -61,15 +76,34 @@
   </ul>
 
 
-  <h2>The Operating Kit</h2>
-  <p>Everything this company runs on, as documentation and code: the constitution the agents follow, the plan template with its stage gates and failure-mode list, the agent job descriptions and routine prompts, the prompting playbook, the legal checklist, the Shopify-on-Cloudflare app scaffold, the founder setup list, and the decision log. It is a toolkit, not a promise: the ledger above is history.</p>
-  <p><a id="kit-buy" href="https://buy.stripe.com/6oU5kC1GN1bg9Tq3Zb8so00" rel="noopener">Buy the Kit, $49</a> &middot; <span class="note">Instant download. Refund on request within 14 days. Sales tax added where it applies.</span></p>
+  <h2 id="kit">The Operating Kit, $49</h2>
+  <p>The files this company runs on: 8 folders, delivered as a zip. Put them in a folder that Claude Code opens, change the names, and you have the same rules, routines, and Shopify app code we use. It is a toolkit, not a promise. The ledger above is history, and it shows what the company has earned so far.</p>
+  <table>
+    <thead><tr><th>Folder</th><th>What is in it</th></tr></thead>
+    <tbody>
+      <tr><td>01-constitution</td><td>The rules every agent reads first, and how agents keep lessons between sessions</td></tr>
+      <tr><td>02-plan</td><td>The company plan with its stage gates, kill rule, and failure-mode list; the risk register; the product pipeline</td></tr>
+      <tr><td>03-agents</td><td>The org chart and first-message prompts for each routine and bot: standup, weekly report, opportunity scan, weekly review, support, growth, research, finance, QA</td></tr>
+      <tr><td>04-playbooks</td><td>How we prompt Claude and Grok, what the tools can actually do, and the Shopify submission lessons that cost us time</td></tr>
+      <tr><td>05-legal</td><td>The compliance rules binding every agent: reviews, posting, privacy, money, identity</td></tr>
+      <tr><td>06-scaffold</td><td>Working Shopify app code on the Cloudflare free tier: embedded admin UI, Shopify Function with tests, billing, compliance webhooks</td></tr>
+      <tr><td>07-setup</td><td>The checklist of steps only the human owner can do</td></tr>
+      <tr><td>08-log</td><td>Our decision log and a weekly report, as written</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:20px"><a id="kit-buy" class="btn" href="https://buy.stripe.com/6oU5kC1GN1bg9Tq3Zb8so00" rel="noopener">Buy the Kit, $49</a></p>
+  <p class="note">Instant download. Refund on request within 14 days. Sales tax added where it applies. Checkout is handled by Stripe and shows the owner's name, because the company is a sole proprietorship.</p>
+  <details><summary>What do I need to use it?</summary><p>A Claude plan that includes Claude Code. The Shopify scaffold also needs a Shopify Partner account and a Cloudflare account; both were free to open, and Shopify charged us a one-time $19 to register for the App Store. Grok Bot is optional. You supply your own accounts; none are included.</p></details>
+  <details><summary>Will this make me money?</summary><p>We make no promise that it will. It is documentation and code. Our own results are the ledger at the top of this page, good or bad.</p></details>
+  <details><summary>What does a person still have to do?</summary><p>Identity checks, card entry, creating accounts, signing agreements, attestations, and taxes. The checklist is in 07-setup. Everything else runs through agents, and they make mistakes, so read their reports.</p></details>
+  <details><summary>Do I get updates?</summary><p>You get the Kit as it is on the day you buy it. We do not promise future versions.</p></details>
+  <details><summary>Can I share it or resell it?</summary><p>Use it for your own businesses, including commercially. Please do not resell or redistribute the Kit itself.</p></details>
 
   <h2>Follow along</h2>
-  <p>Weekly updates by email: newsletter coming shortly. Updates on X: coming shortly.</p>
+  <p>Updates on X: <a href="https://x.com/Onebenjaminco" rel="noopener">@Onebenjaminco</a>, an automated account managed by <a href="https://x.com/Paul_Freedman3" rel="noopener">@Paul_Freedman3</a>.</p>
 
   <h2>Transparency</h2>
-  <p class="note">Support and marketing are handled by AI agents that will tell you so if you ask. The company is a sole proprietorship owned by Paul Freedman. For legal matters, write to the address in the footer of any product page. This site contains no earnings claims; the ledger above is history, not a forecast.</p>
+  <p class="note">Support and marketing are handled by AI agents that will tell you so if you ask. The company is a sole proprietorship owned by Paul Freedman. Questions, refunds, and legal matters: <a href="mailto:onebenjaminco@gmail.com">onebenjaminco@gmail.com</a>, read by a support agent that passes legal matters to the owner. This site contains no earnings claims; the ledger above is history, not a forecast. Visits are counted with Cloudflare Web Analytics, which sets no cookies.</p>
 </main>
 <script>
   fetch('data/ledger.json').then(r => r.json()).then(d => {
@@ -86,5 +120,6 @@
       tb.appendChild(tr); });
   }).catch(()=>{});
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f9cc334b862c4217aed6ee1c9627fbbc"}'></script>
 </body>
 </html>
