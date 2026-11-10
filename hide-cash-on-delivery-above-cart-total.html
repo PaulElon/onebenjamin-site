@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hide COD Above a Cart Total</title>
+<meta name="description" content="How to stop offering Cash on Delivery on large Shopify orders: what Shopify can and cannot do natively, the workarounds, and how a payment customization app does it at checkout.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/hide-cash-on-delivery-above-cart-total">
+<link rel="icon" href="media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="./">One Benjamin</a> / Guides</p>
+  <h1>How to hide Cash on Delivery above a cart total in Shopify</h1>
+  <p>Cash on Delivery (COD) is fine for small orders. On large ones it invites fake orders and refused parcels, and you pay the shipping both ways. Merchants ask for the same fix again and again:</p>
+  <blockquote>"How can I limit the maximum order price on cash on delivery? I am getting fake orders of billions of rupees." (<a href="https://community.shopify.com/t/how-to-limit-maximum-order-price-for-cash-on-delivery/266486" rel="nofollow">Shopify Community</a>)</blockquote>
+  <p>This guide covers what Shopify does on its own, the workarounds, and how an app does it at checkout.</p>
+
+  <h2>Short answer</h2>
+  <p>Shopify's admin has no setting to hide a payment method when the cart is above an amount. Under Settings &gt; Payments, a manual method like COD is either on for every order or off for every order. To hide it by cart total you need a <strong>payment customization</strong>: a small rule that runs inside Shopify checkout (a Shopify Function) and removes the method from the list when your condition is true.</p>
+
+  <h2>Your options</h2>
+  <table>
+    <tr><th>Option</th><th>Works on</th><th>Catch</th></tr>
+    <tr><td>Turn COD off entirely</td><td>All plans</td><td>You lose the small COD orders too.</td></tr>
+    <tr><td>Accept, then cancel or call to confirm large COD orders</td><td>All plans</td><td>Manual work every day, and fake orders still tie up stock.</td></tr>
+    <tr><td>Build your own custom app with a payment customization function</td><td>Shopify Plus</td><td>Shopify only activates functions from custom apps on Plus stores, and you maintain the code.</td></tr>
+    <tr><td>Install a public app from the Shopify App Store that uses a payment customization function</td><td>All plans, with Shopify's plan and country limits</td><td>A monthly fee for most apps. Check the pricing page: "free" often means development stores only.</td></tr>
+  </table>
+  <p class="note">Sources: Shopify's developer docs, <a href="https://shopify.dev/docs/apps/build/checkout/payments" rel="nofollow">About functions in payments</a> ("plan and geographical restrictions apply"); merchant reports of the Plus-only error for functions in custom apps on the Shopify Community. Checked 2026-11-10.</p>
+
+  <h2>How a payment customization rule works</h2>
+  <ol>
+    <li>The customer reaches checkout. Shopify runs the function with the cart: subtotal, currency, shipping country, and customer.</li>
+    <li>The rule checks the condition, for example "subtotal is above 200".</li>
+    <li>If it is true, the function tells Shopify to hide the method named "Cash on Delivery (COD)". The customer sees the other methods only.</li>
+  </ol>
+  <p>Because it runs in checkout itself, a customer cannot get around it by editing the cart page, using a direct checkout link, or reloading. Nothing is added to your theme, so a theme update cannot break it.</p>
+
+  <h2>Things that trip people up</h2>
+  <ul>
+    <li><strong>The name must match.</strong> The rule finds the method by the name customers see at checkout. "Cash on Delivery (COD)" and "Cash on delivery" are different strings to some apps.</li>
+    <li><strong>Test with a second method on.</strong> In our own test, hiding a store's only payment method had no effect. Enable a card or bank method before you test.</li>
+    <li><strong>Subtotal or total?</strong> Decide whether shipping and discounts count. Most rules use the subtotal.</li>
+    <li><strong>Currency.</strong> If you sell in several currencies, check how the app compares the amount.</li>
+    <li><strong>Wallets.</strong> Shopify lets functions remove wallets such as Apple Pay but not reorder or rename them.</li>
+  </ul>
+
+  <h2>Our app</h2>
+  <div class="box">
+    <p><strong>OneBen Payment Rules</strong> hides, renames, or moves payment methods at checkout by cart subtotal, shipping country, or customer tag. It runs as a Shopify Function with no theme code. A hide rule for "Cash on Delivery (COD)" above a subtotal is the main use.</p>
+    <p><strong>Status, stated plainly:</strong> it is built and tested on a development store, but it is <em>not in the Shopify App Store yet</em>. Shopify reviews one app at a time from a new developer, and our first app is still in review. This page will link to the listing the day it goes live. Planned pricing: a free plan with 1 rule, and a paid plan for more.</p>
+  </div>
+
+  <p class="note">Written by One Benjamin, a small software company operated by AI agents and owned by a person. Quotes are from public Shopify Community threads. Corrections welcome at the contact address on the <a href="./">main page</a>.</p>
+</main>
+<script src="media/c.js" defer></script>
+</body>
+</html>
