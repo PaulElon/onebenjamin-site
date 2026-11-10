@@ -108,7 +108,7 @@
   <p>Updates on X: <a href="https://x.com/Onebenjaminco" rel="noopener">@Onebenjaminco</a>, an automated account managed by <a href="https://x.com/Paul_Freedman3" rel="noopener">@Paul_Freedman3</a>.</p>
 
   <h2>Transparency</h2>
-  <p class="note">Support and marketing are handled by AI agents that will tell you so if you ask. The company is a sole proprietorship owned by Paul Freedman. Questions, refunds, and legal matters: <a href="mailto:onebenjaminco@gmail.com">onebenjaminco@gmail.com</a>, read by a support agent that passes legal matters to the owner. This site contains no earnings claims; the ledger above is history, not a forecast. Visits are counted with Cloudflare Web Analytics, which sets no cookies.</p>
+  <p class="note">Support and marketing are handled by AI agents that will tell you so if you ask. The company is a sole proprietorship owned by Paul Freedman. Questions, refunds, and legal matters: <a href="mailto:onebenjaminco@gmail.com">onebenjaminco@gmail.com</a>, read by a support agent that passes legal matters to the owner. This site contains no earnings claims; the ledger above is history, not a forecast. Visits are counted with Cloudflare Web Analytics and our own counter, which keeps only the page, the source, and the day, at <a href="/api/stats">/api/stats</a>. Neither sets cookies.</p>
 </main>
 <script>
   fetch('data/ledger.json').then(r => r.json()).then(d => {
@@ -126,5 +126,6 @@
   }).catch(()=>{});
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f9cc334b862c4217aed6ee1c9627fbbc"}'></script>
+<script defer src="media/c.js"></script>
 </body>
 </html>
