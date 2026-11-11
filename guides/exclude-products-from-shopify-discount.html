@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exclude Products From Discounts</title>
+<meta name="description" content="How to run a Shopify discount on everything except some products or sale items: the native collection workaround, its limits, and the app option.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/guides/exclude-products-from-shopify-discount">
+<link rel="icon" href="../media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="../">One Benjamin</a> / Guides</p>
+  <h1>How to exclude products from a Shopify discount</h1>
+  <p>You want "20% off everything except the new collection" or "this code should not work on items already on sale". Merchants ask for it all the time:</p>
+  <blockquote>"No native way to exclude specific products or SKUs, only include them." (<a href="https://community.shopify.com/t/feature-request-allow-product-sku-exclusions-on-discounts/630912" rel="nofollow">Shopify Community</a>)</blockquote>
+  <blockquote>"How to stop Shopify stacking discounts on items that are already on sale? Surely this should be native." (<a href="https://community.shopify.com/t/how-to-stop-discounts-codes-stacking-on-items-already-on-sale/608039" rel="nofollow">Shopify Community</a>)</blockquote>
+
+  <h2>Short answer</h2>
+  <p>A Shopify amount-off discount has no "exclude" field. Under <em>Applies to</em> you pick <strong>Specific products</strong> or <strong>Specific collections</strong>, or the discount applies to all products. So the native way to exclude items is to flip the problem: build a collection that holds everything <em>except</em> the items you want to protect, and point the discount at that collection.</p>
+
+  <h2>The native workaround, step by step</h2>
+  <ol>
+    <li><strong>Mark the items to protect.</strong> Give them a tag such as <code>no-discount</code>, or keep them in their own collection (for example "New arrivals").</li>
+    <li><strong>Create a collection called "Discount eligible".</strong> In <em>Products &gt; Collections</em>, add a Products source that includes your products by condition (for example, product status is equal to Active).</li>
+    <li><strong>Exclude the protected items.</strong> In that source, click <em>Exclude</em> and either add the condition <em>Tag includes no-discount</em>, or exclude the existing collection of protected items. Shopify says exclusions always override inclusions.</li>
+    <li><strong>Point the discount at it.</strong> Create or edit your discount, set <em>Applies to</em> to <em>Specific collections</em>, and choose "Discount eligible". This also works for a code you have already shared: edit the existing discount and save.</li>
+  </ol>
+
+  <h2>Excluding sale items (compare-at price)</h2>
+  <p>Collections can match on <em>Compare at price is not set</em>, which keeps out products shown at a sale price. Three catches from Shopify's own docs:</p>
+  <ul>
+    <li>A product matches "is not set" when <em>any</em> of its variants has an empty compare-at price. If only some variants are on sale, the product still gets into the collection, and the discount reaches the sale variants too.</li>
+    <li>A compare-at price of $0.00 does not count as empty.</li>
+    <li>Compare-at price cannot be used in the <em>Exclude</em> section. Shopify lists only category, tag, type, and vendor conditions for exclusions, so it has to be an include condition.</li>
+  </ul>
+  <p>The reliable fix is a tag: tag sale items <code>sale</code> (by hand or with bulk edit) and exclude the tag.</p>
+
+  <h2>Limits of the workaround</h2>
+  <table>
+    <tr><th>Limit</th><th>What it means</th></tr>
+    <tr><td>Exclusions work on products</td><td>Shopify describes exclusions as removing products from the collection. If only some variants of a product are on sale, plan for the variant catch above.</td></tr>
+    <tr><td>60 condition values per source</td><td>Fine for a few tags; tight if you exclude long lists by title or vendor.</td></tr>
+    <tr><td>5 collections per store that exclude another collection</td><td>If you run many campaigns with different exclusions, use tags instead of collection exclusions.</td></tr>
+    <tr><td>"Match any" vs "Match all"</td><td>Shopify warns that with "Match any condition" a product can stay in even if it matches some exclusion criteria. Use "Match all" for exclusions, or a single tag.</td></tr>
+    <tr><td>Upkeep</td><td>One "eligible" collection per exclusion set. Each new product needs the right tag before the next sale.</td></tr>
+    <tr><td>Stacking</td><td>Whether your code also combines with other discounts is set separately, in the discount's <em>Combinations</em> section.</td></tr>
+  </table>
+
+  <h2>The one-step option: an exclusion discount app</h2>
+  <p>Apps built on Shopify discount functions run custom discount logic inside checkout. An exclusion app lets you set "X% off everything except these products, collections, or tags" on one screen, with no helper collection to maintain.</p>
+  <div class="box">
+    <p><strong>OneBen Discount Excluder</strong> is ours. It creates a percentage or fixed-amount discount, automatic or code, with an optional minimum subtotal, that skips any products, collections, or tags you choose. It runs as a Shopify Function with no theme code.</p>
+    <p><strong>Status, stated plainly:</strong> it was submitted to the Shopify App Store on November 4, 2026 and is <em>still in review</em>, so you cannot install it yet. This page will link to the listing the day it goes live. Until then, the collection workaround above is the best free option.</p>
+    <p class="note">What it does not do: it creates its own discounts; it does not add exclusions to a code you made in Shopify's discount screen. Tags match exactly, including capitalization.</p>
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="note">
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/discounts/discount-types/percentage-fixed-amount" rel="nofollow">Amount off products discounts</a> (Applies to options; Combinations).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/products/collections/automated-collections/auto-sort" rel="nofollow">Automated collections</a> (excluding products; exclusions override inclusions; 60 condition values per source; 5 collections that exclude another collection).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/products/collections/conditions" rel="nofollow">Collection conditions</a> (Tag includes / does not include; Compare at price is set / is not set; $0.00 is not empty; which conditions apply to exclusions; Match any vs Match all).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/discounts/managing-discount-codes" rel="nofollow">Managing discounts</a> (editing an existing discount).</li>
+    <li>shopify.dev, <a href="https://shopify.dev/docs/apps/build/discounts" rel="nofollow">Discounts</a> (discount functions run at checkout).</li>
+  </ul>
+  <p class="note">All Shopify facts checked on 2026-11-11. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Quotes are from public Shopify Community threads. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+</main>
+<script src="../media/c.js" defer></script>
+</body>
+</html>
