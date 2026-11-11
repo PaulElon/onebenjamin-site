@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Limit Quantity Per Order</title>
+<meta name="description" content="How to set a maximum or minimum quantity per order in Shopify, why theme-only limits can be skipped, and how checkout validation covers Shop Pay and Apple Pay.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/guides/limit-quantity-per-order-shopify">
+<link rel="icon" href="../media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="../">One Benjamin</a> / Guides</p>
+  <h1>How to limit quantity per order in Shopify (including express checkout)</h1>
+  <p>You are launching a limited drop and want "max 2 per order", or you sell wholesale-style packs and need "minimum 6". The usual first try is a theme setting or a bit of code on the product page. That changes what the quantity box allows, but the order is decided later, in the cart and at checkout. This guide covers what Shopify offers natively, why theme-only limits leak, and what actually holds at checkout.</p>
+
+  <h2>Short answer</h2>
+  <ul>
+    <li><strong>B2B buyers:</strong> Shopify has native <em>quantity rules</em> (minimum, maximum, increment) set per variant in a B2B catalog. They apply to the B2B buyers that catalog is assigned to, not to your regular shoppers.</li>
+    <li><strong>Regular shoppers:</strong> there is no per-order quantity limit in the standard product settings. The way to enforce one is a <strong>cart and checkout validation function</strong>, which apps use to block checkout until the cart meets your rule.</li>
+    <li><strong>Theme code alone</strong> (a <code>max</code> on the quantity input, a script on the cart page) is a display hint. It is not enforcement.</li>
+  </ul>
+
+  <h2>Option 1: B2B quantity rules (native)</h2>
+  <p>In a B2B catalog you can set, per variant:</p>
+  <table>
+    <tr><th>Rule</th><th>Shopify's definition</th></tr>
+    <tr><td>Minimum</td><td>"the fewest number of an item that can be purchased at one time"</td></tr>
+    <tr><td>Maximum</td><td>"the greatest number of a product that can be purchased at one time"</td></tr>
+    <tr><td>Increment</td><td>a positive whole number of 1 or more; the default is 1</td></tr>
+  </table>
+  <p>Catches: the rules are per variant, so a buyer cannot combine variants to meet them (Shopify's example: 5 gray hats and 5 blue hats do not meet an increment of 10). They live in catalogs, which only apply to B2B customers. If your problem is resellers or shoppers on your normal storefront, this option does not reach them. Check your plan in the admin for B2B access.</p>
+
+  <h2>Option 2: theme or cart-page code (not enforcement)</h2>
+  <p>Setting a maximum on the product page quantity selector is useful as a hint, but it only controls that one input. Shoppers can reach checkout without it: adding the item again from another page, editing quantity in the cart, using a cart permalink, or tapping an express checkout button. Merchants who rely on this report that limits get bypassed, and the same complaint shows up in reviews of limit apps that work at the theme level.</p>
+
+  <h2>Option 3: checkout validation (what holds)</h2>
+  <p>Shopify Functions include a <em>Cart and Checkout Validation</em> API. A validation function reads the cart and returns an error when a rule is broken. According to Shopify's developer docs:</p>
+  <ul>
+    <li>"Validation errors that your function returns always block checkout."</li>
+    <li>It runs for online store carts, custom storefront carts, and "throughout the checkout process", and for <strong>accelerated checkouts</strong>: "This includes express checkouts, such as Shop Pay, PayPal, Google Pay, and Apple Pay."</li>
+    <li>It also runs on draft orders.</li>
+    <li>If the function itself fails, checkout continues without the check <em>by default</em>. An app can set <code>blockOnFailure</code> so a failed run blocks instead. Ask any limit app which one it uses.</li>
+    <li>A store can have up to 25 active validation functions.</li>
+  </ul>
+  <p>The shopper sees your message on the cart page (in themes that use the cart template) and in checkout, and cannot pay until the cart is fixed.</p>
+
+  <h2>What a per-order limit does not do</h2>
+  <ul>
+    <li><strong>It does not stop repeat orders.</strong> "Max 2 per order" lets the same person place a second order. Lifetime or per-customer limits need past order history, which a checkout function does not have; they are usually handled by order review or cancellation after the fact.</li>
+    <li><strong>Per product vs per variant.</strong> Decide whether "max 2" means 2 of each size or 2 across all sizes, and check that the tool you use counts the way you mean.</li>
+  </ul>
+
+  <h2>The app option</h2>
+  <div class="box">
+    <p><strong>OneBen Order Limits</strong> is ours. It sets a minimum or maximum quantity for a product, a product tag, or the whole cart, plus a minimum order amount, with your own message. It runs as a cart and checkout validation function with <code>blockOnFailure</code> on, and no theme code.</p>
+    <p><strong>Status, stated plainly:</strong> it is built and tested on a development store (a "max 1" rule rejected quantity 2 with the merchant's message), but it is <em>not yet in the Shopify App Store</em>, so you cannot install it yet. We have not yet tested it ourselves with Shop Pay or Apple Pay; the coverage above is what Shopify's docs state for all validation functions.</p>
+    <p class="note">What it does not do: lifetime or per-customer limits, and collection rules (use a product tag for now).</p>
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="note">
+    <li>Shopify Help Center, <a href="https://help.shopify.com/manual/b2b/catalogs/quantity-pricing" rel="nofollow">Setting up quantity rules and volume pricing in B2B</a> (minimum, maximum, increment; per-variant rule).</li>
+    <li>shopify.dev, <a href="https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation" rel="nofollow">Cart and Checkout Validation Function API</a> (errors block checkout; accelerated checkouts; draft orders; blockOnFailure; 25 per store).</li>
+    <li>shopify.dev, <a href="https://shopify.dev/docs/apps/build/checkout/cart-checkout-validation" rel="nofollow">Cart and checkout validation</a> ("can't be bypassed by customers").</li>
+  </ul>
+  <p class="note">All Shopify facts checked on 2026-11-11. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+</main>
+<script src="../media/c.js" defer></script>
+</body>
+</html>
