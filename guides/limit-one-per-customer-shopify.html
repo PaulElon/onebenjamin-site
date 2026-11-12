@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Limit One Per Customer</title>
+<meta name="description" content="How to limit a Shopify product to one per customer, not just one per order: what discount limits, B2B rules, and checkout validation can and cannot do, and a Flow plus tag recipe.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/guides/limit-one-per-customer-shopify">
+<link rel="icon" href="../media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="../">One Benjamin</a> / Guides</p>
+  <h1>How to limit a product to one per customer in Shopify</h1>
+  <p>"Max 1 per order" is easy to enforce at checkout. "One per customer, ever" is a different problem: the same person can simply place a second order. This guide covers what Shopify offers natively, why per-customer limits are harder than per-order limits, and a recipe that works with Shopify Flow, a customer tag, and a checkout validation.</p>
+
+  <h2>Short answer</h2>
+  <ul>
+    <li><strong>For a discount</strong>, Shopify has this built in: <em>Limit to one per customer</em> on the discount, tracked by email address or phone number.</li>
+    <li><strong>For a product</strong>, there is no "one per customer" setting. A per-order limit stops 2 in one cart, not a second order.</li>
+    <li><strong>What works:</strong> mark buyers after they buy (a Shopify Flow workflow adds a customer tag on <em>Order created</em>), then block tagged customers at checkout with a validation function that reads customer tags. It only recognizes customers Shopify can identify, so pair it with sign-in for the product, or with a review step for guests.</li>
+  </ul>
+
+  <h2>Why per-customer is harder than per-order</h2>
+  <p>A cart and checkout validation function sees the current cart and, when Shopify knows who the buyer is, a short customer record. Per Shopify's developer docs, that record includes the customer's tags (<code>hasAnyTag</code>, <code>hasTags</code>), total <code>numberOfOrders</code>, <code>amountSpent</code>, metafields, and whether the buyer is signed in (<code>isAuthenticated</code>). It does not include the customer's past orders or which products they bought. So a function cannot look up "has this person bought this product before". Something has to write that fact onto the customer first.</p>
+
+  <h2>Option 1: discount usage limit (native, discounts only)</h2>
+  <p>If what you are limiting is a promotion, not the product itself, use the discount setting. In <em>Maximum discount uses</em>, <em>Limit to one per customer</em> "tracks a customer's email address or phone number to limit the discount to one use per customer". A shopper can still buy the product again at full price.</p>
+
+  <h2>Option 2: tag buyers with Flow, block them at checkout</h2>
+  <ol>
+    <li><strong>Tag the buyer.</strong> In Shopify Flow, create a workflow with the <em>Order created</em> trigger, a condition that the order's line items include your limited product, and the <em>Add customer tags</em> action with a tag such as <code>bought-drop-01</code>. Shopify Flow is a free app on the Basic, Grow, Advanced, and Plus plans.</li>
+    <li><strong>Block tagged buyers.</strong> Use a cart and checkout validation that returns an error when the cart contains the limited product and the customer has that tag. Validation errors block checkout, including express checkouts (Shop Pay, PayPal, Google Pay, Apple Pay), per Shopify's docs. This step needs an app built on the validation API.</li>
+    <li><strong>Close the guest gap.</strong> Tags live on a customer record. A guest who checks out with a new email address is a new customer to Shopify, so the tag does not follow them. For a strict limit, have the validation also require <code>isAuthenticated</code> for the limited product, so only signed-in customers can buy it. Shopify customer accounts use passwordless sign-in with a one-time email code.</li>
+  </ol>
+  <p>Test it on a development store before launch day: place an order, confirm the tag appears on the customer, then try a second order as the same customer, signed in and as a guest.</p>
+
+  <h2>Option 3: review after the fact</h2>
+  <p>If requiring sign-in costs you too many sales, let orders through and catch duplicates afterward. A Flow workflow on <em>Order created</em> can check whether the customer already has the tag and then add an order tag for review or use Flow's <em>Cancel order</em> action. It is slower, but it never blocks a legitimate first-time buyer.</p>
+
+  <h2>Catches</h2>
+  <table>
+    <tr><th>Catch</th><th>What it means</th></tr>
+    <tr><td>Timing</td><td>The tag is added after the order is created. Two checkouts started at the same moment can both pass.</td></tr>
+    <tr><td>New emails</td><td>Without sign-in, one person with two email addresses is two customers.</td></tr>
+    <tr><td>Refunds and cancellations</td><td>The tag stays unless you remove it. Add a second Flow workflow on <em>Order canceled</em> if a canceled buyer should be allowed to try again.</td></tr>
+    <tr><td>Failed runs</td><td>By default, if a validation function errors or times out, checkout continues without it. Apps can set <code>blockOnFailure</code> so a failed run blocks instead. Ask any app which one it uses.</td></tr>
+  </table>
+
+  <h2>Our apps, stated plainly</h2>
+  <div class="box">
+    <p><strong>OneBen Order Limits</strong> is ours. It enforces per-order minimums and maximums for a product, a product tag, or the whole cart, as a checkout validation with <code>blockOnFailure</code> on. <strong>It does not do per-customer or lifetime limits</strong>, and it is not yet in the Shopify App Store. For one per customer, use the recipe above with a validation app that reads customer tags. If we add customer-tag rules, this page will say so.</p>
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="note">
+    <li>shopify.dev, <a href="https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation" rel="nofollow">Cart and Checkout Validation Function API</a> (buyerIdentity.customer fields: hasAnyTag, hasTags, numberOfOrders, amountSpent, metafields; isAuthenticated; express checkouts; blockOnFailure).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/discounts/discount-types/percentage-fixed-amount" rel="nofollow">Amount off products discounts</a> (Limit to one per customer).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/shopify-flow" rel="nofollow">Shopify Flow</a> (free app; plans), <a href="https://help.shopify.com/en/manual/shopify-flow/reference/triggers/order-created" rel="nofollow">Order created trigger</a>, <a href="https://help.shopify.com/en/manual/shopify-flow/reference/actions/add-customer-tags" rel="nofollow">Add customer tags action</a>.</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/customers/customer-accounts" rel="nofollow">Customer accounts</a> (passwordless sign-in; new email creates a new customer profile).</li>
+  </ul>
+  <p class="note">All Shopify facts checked on 2026-11-12. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>. Related: <a href="limit-quantity-per-order-shopify">how to limit quantity per order</a>.</p>
+</main>
+<script src="../media/c.js" defer></script>
+</body>
+</html>
