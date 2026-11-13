@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BFCM Discount Test Cart</title>
+<meta name="description" content="A pre-Black Friday checklist for Shopify: list every live discount, check how they combine, and build test carts that catch stacking before customers do.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify">
+<link rel="icon" href="../media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="../">One Benjamin</a> / Guides</p>
+  <h1>Black Friday discount check: build a test cart before the sale</h1>
+  <p>Most Black Friday discount problems are not one bad discount. They are two or three good ones landing on the same cart. A store owner in the Shopify Community described it:</p>
+  <blockquote>"On a handful of carts all three landed at once and we shipped orders below cost." (an automatic 20% on a collection, an email code, and free shipping over $75; <a href="https://community.shopify.com/t/whats-the-one-thing-that-broke-in-your-store-last-bfcm/684511" rel="nofollow">Shopify Community</a>)</blockquote>
+  <blockquote>"This mean some products get a 60% discount which is completely unacceptable." (an abandoned-cart code on top of sale prices; <a href="https://community.shopify.com/t/how-do-i-stop-discounts-applying-to-already-discounted-products/339481" rel="nofollow">Shopify Community</a>)</blockquote>
+  <p>This checklist takes about an hour and costs nothing. Do it a few days before the sale starts, and again after any discount is added.</p>
+
+  <h2>1. List every discount that will be live</h2>
+  <p>Open <em>Discounts</em> in your admin and write down every active or scheduled discount for the sale window. Include the ones people forget:</p>
+  <ul>
+    <li>Automatic discounts (they apply with no code).</li>
+    <li>Free shipping thresholds.</li>
+    <li>Codes made by apps: influencer, affiliate, loyalty, referral, abandoned-cart and pop-up codes. One merchant had "100's of discount codes that are active at anyone time" (<a href="https://community.shopify.com/t/stop-discount-codes-being-used-on-sale-items/272167" rel="nofollow">source</a>).</li>
+    <li>Staff and wholesale codes that customers sometimes share.</li>
+    <li>Products shown at a sale price with a compare-at price. Shopify does not treat a compare-at price as a discount, so discounts can still apply on top of it.</li>
+  </ul>
+
+  <h2>2. Write down each discount's class and combinations</h2>
+  <p>Shopify sorts discounts into three classes: <strong>product</strong> (money off items), <strong>order</strong> (money off the whole purchase), and <strong>shipping</strong>. Each discount has a <em>Combinations</em> setting that says which of those classes it may combine with. For each discount on your list, note:</p>
+  <table>
+    <tr><th>Write down</th><th>Why it matters</th></tr>
+    <tr><td>Class (product, order, shipping)</td><td>Combinations are set per class, not per discount.</td></tr>
+    <tr><td>Combines with: product / order / shipping</td><td>Two discounts stack only if their settings allow it.</td></tr>
+    <tr><td>Applies to (all products, collections, products)</td><td>Tells you which items each one can reach.</td></tr>
+    <tr><td>Minimum purchase or quantity</td><td>A cart just over the threshold is the one to test.</td></tr>
+    <tr><td>Usage limits</td><td>"One use per customer" and total-use limits stop code sharing from getting out of hand.</td></tr>
+  </table>
+  <p>Shopify's developer docs add one rule worth knowing: by default, only one product discount applies to a single cart line. (Shopify Plus stores can let tagged product discounts apply together on a line.) An order discount and a shipping discount can still land on top if the settings allow.</p>
+
+  <h2>3. Build the test carts</h2>
+  <p>Use your store as a customer would. You do not need to place an order: checkout shows the discounts and the total before payment. Build these carts and write the total next to each:</p>
+  <ol>
+    <li><strong>The worst case.</strong> One sale-priced item from the discounted collection, enough to pass the free-shipping and minimum-purchase thresholds, plus your biggest code. Compare the total to your cost.</li>
+    <li><strong>Each code on a sale item.</strong> Every code type from step 1 (one influencer code, one loyalty code, and so on) on a single compare-at item.</li>
+    <li><strong>Each protected product.</strong> Anything that should never be discounted (new arrivals, gift cards, low-margin items) with each code.</li>
+    <li><strong>Just over each threshold.</strong> A cart a dollar over each minimum, then remove one item and check the discount goes away.</li>
+    <li><strong>Express checkout.</strong> Repeat the worst case through an express button such as Shop Pay, if you offer it.</li>
+  </ol>
+  <p>If any total is below what you can afford, fix the discount, not the cart: turn off a combination, narrow <em>Applies to</em>, or set a usage limit.</p>
+
+  <h2>4. Common fixes</h2>
+  <ul>
+    <li><strong>Code stacks on sale items:</strong> point the code at a collection that leaves sale items out. Step-by-step: <a href="exclude-products-from-shopify-discount">how to exclude products from a Shopify discount</a>.</li>
+    <li><strong>Order discount plus free shipping goes below cost:</strong> untick shipping in the order discount's combinations, or raise the free-shipping threshold for the sale.</li>
+    <li><strong>A shared code is used hundreds of times:</strong> set a total-use limit or "one use per customer".</li>
+    <li><strong>Quantity limits for drops:</strong> see <a href="limit-quantity-per-order-shopify">limit quantity per order</a> and <a href="limit-one-per-customer-shopify">limit to one per customer</a>.</li>
+  </ul>
+
+  <h2>5. On the day</h2>
+  <ul>
+    <li>Rebuild the worst-case cart once the sale starts. Scheduled discounts and app codes can switch on at different times.</li>
+    <li>Check the first few orders' discount lines against what you expected.</li>
+    <li>Keep the list from step 1. It is your undo list if something goes wrong.</li>
+  </ul>
+
+  <div class="box">
+    <p><strong>Our app, stated plainly.</strong> We make <strong>OneBen Discount Excluder</strong>: a percentage or fixed-amount discount, automatic or code, that skips the products, collections, or tags you choose, with no theme code. It was submitted to the Shopify App Store on November 4, 2026 and is <em>still in review</em>, so you cannot install it yet. It does not change codes made in Shopify's discount screen or by other apps. This checklist works without any app.</p>
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="note">
+    <li>shopify.dev, <a href="https://shopify.dev/docs/apps/build/discounts" rel="nofollow">Discounts</a> (product, order, and shipping discount classes).</li>
+    <li>shopify.dev, <a href="https://shopify.dev/docs/api/admin-graphql/latest/objects/DiscountCombinesWith" rel="nofollow">DiscountCombinesWith</a> (combinations per class; one product discount per cart line by default; tagged stacking on Plus).</li>
+    <li>Shopify Community threads quoted above.</li>
+  </ul>
+  <p class="note">Shopify developer docs checked on 2026-11-13. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+</main>
+<script src="../media/c.js" defer></script>
+</body>
+</html>
