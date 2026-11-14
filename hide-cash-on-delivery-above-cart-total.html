@@ -63,6 +63,17 @@
     <li><strong>Wallets.</strong> Shopify lets functions remove wallets such as Apple Pay but not reorder or rename them.</li>
   </ul>
 
+  <h2>Make COD the default, or move it down</h2>
+  <p>Some merchants want the opposite: COD shown first because most of their buyers pay that way. Others want it kept but listed last. Shopify's admin cannot change the order of payment methods, but a payment customization can <strong>reorder</strong> them as well as hide or rename them. You can combine rules, for example "COD first below 200, hidden above 200".</p>
+
+  <h2>Limits worth knowing before you install anything</h2>
+  <ul>
+    <li><strong>25 rules per store.</strong> Shopify activates at most 25 payment customization functions on one store, across all apps. If you already run several payment apps, count them.</li>
+    <li><strong>Online checkout only.</strong> The rules run at checkout and in checkouts opened from a draft order invoice. They do not run in Shopify POS or on draft orders completed in the admin.</li>
+    <li><strong>Wallets.</strong> Express buttons such as Apple Pay and Google Pay can be hidden, but are not reordered or renamed like ordinary methods.</li>
+  </ul>
+  <p class="note">Source: Shopify's developer docs, <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">Payment Customization Function API</a> ("You can activate a maximum of 25 payment customization functions on each store"; supported surfaces list), checked 2026-11-14.</p>
+
   <h2>Our app</h2>
   <div class="box">
     <p><strong>OneBen Payment Rules</strong> hides, renames, or moves payment methods at checkout by cart subtotal, shipping country, or customer tag. It runs as a Shopify Function with no theme code. A hide rule for "Cash on Delivery (COD)" above a subtotal is the main use.</p>
