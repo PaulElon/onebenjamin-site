@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hide COD Above a Cart Total</title>
-<meta name="description" content="How to stop offering Cash on Delivery on large Shopify orders: what Shopify can and cannot do natively, the workarounds, and how a payment customization app does it at checkout.">
+<meta name="description" content="How to stop offering Cash on Delivery on large Shopify orders: what Shopify can and cannot do natively, whether you can charge a COD fee, the workarounds, and how a payment customization app does it at checkout.">
 <link rel="canonical" href="https://onebenjamin.pages.dev/hide-cash-on-delivery-above-cart-total">
 <link rel="icon" href="media/avatar.png">
 <style>
@@ -65,6 +65,17 @@
 
   <h2>Make COD the default, or move it down</h2>
   <p>Some merchants want the opposite: COD shown first because most of their buyers pay that way. Others want it kept but listed last. Shopify's admin cannot change the order of payment methods, but a payment customization can <strong>reorder</strong> them as well as hide or rename them. You can combine rules, for example "COD first below 200, hidden above 200".</p>
+
+  <h2>Can I charge a fee for COD instead?</h2>
+  <p>Not natively. Shopify has no setting that adds a surcharge when a buyer picks Cash on Delivery, and a higher plan does not unlock one. A payment customization cannot do it either: it can rename, reorder, or hide payment methods, set payment terms, and add a review requirement, but it cannot change the order total. That includes our app.</p>
+  <p>The workarounds merchants use, and their catch:</p>
+  <ul>
+    <li><strong>A shipping rate labeled for COD</strong>, priced with the fee built in. The fee shows before payment, but nothing stops a buyer from picking that rate and then paying by card.</li>
+    <li><strong>A fee product or fee app</strong> that adds a line item. Check what happens when a buyer switches from COD to card: some setups leave the fee in place, or add it only after the order is placed.</li>
+    <li><strong>No fee, just a ceiling or a floor.</strong> If the fee is meant to cover refused parcels, hiding COD above a cart total (or below a small one) removes the riskiest orders without touching the total. This is the rule this guide is about.</li>
+  </ul>
+  <p>Do not rename COD to mention a fee that is not actually charged. Buyers read the label as a promise.</p>
+  <p class="note">Sources: Shopify's developer docs, <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">Payment Customization Function API</a> (operations: rename, reorder, hide, payment terms, review requirement), checked 2026-11-15; <a href="https://community.shopify.com/t/shopify-native-cod-cash-on-delivery-fee/683943" rel="nofollow">Shopify Community: "Shopify Native COD (Cash on Delivery) fee"</a>, September 2026.</p>
 
   <h2>Limits worth knowing before you install anything</h2>
   <ul>
