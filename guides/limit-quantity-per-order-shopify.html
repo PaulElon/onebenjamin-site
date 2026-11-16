@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Limit Quantity Per Order</title>
-<meta name="description" content="How to set a maximum or minimum quantity per order in Shopify, why theme-only limits can be skipped, and how checkout validation covers Shop Pay and Apple Pay.">
+<meta name="description" content="How to set a maximum or minimum quantity, or a minimum order amount, in Shopify, why theme-only limits can be skipped, and how checkout validation covers Shop Pay and Apple Pay.">
 <link rel="canonical" href="https://onebenjamin.pages.dev/guides/limit-quantity-per-order-shopify">
 <link rel="icon" href="../media/avatar.png">
 <style>
@@ -62,6 +62,14 @@
   </ul>
   <p>The shopper sees your message on the cart page (in themes that use the cart template) and in checkout, and cannot pay until the cart is fixed.</p>
 
+  <h2>Minimum order amount (cart total)</h2>
+  <p>"Minimum order $50" is a money rule, not a quantity rule. The B2B quantity rules above count items, so they do not cover it. A checkout validation function can: it reads the cart's subtotal and blocks checkout below your amount. Two details decide whether it behaves the way you expect:</p>
+  <ul>
+    <li><strong>What "subtotal" means.</strong> Shopify's validation API defines the cart subtotal as "the amount, before taxes and cart-level discounts, for the customer to pay." So with a $50 minimum, a $55 cart passes even if a 20%-off-the-order code brings what the shopper pays below $50. If your minimum must hold after an order discount, set the amount with that in mind.</li>
+    <li><strong>Currency.</strong> If you sell in several currencies, a $50 rule means nothing to a cart priced in euros. Check what your tool does then. OneBen Order Limits only compares amounts in the same currency; when the cart's currency differs from the rule's, it blocks checkout rather than guess a conversion.</li>
+  </ul>
+  <p>The same leak as quantity limits applies here: a "minimum order" message in the theme or on the cart page does not stop an express checkout button. The check has to run at checkout.</p>
+
   <h2>What a per-order limit does not do</h2>
   <ul>
     <li><strong>It does not stop repeat orders.</strong> "Max 2 per order" lets the same person place a second order. Lifetime or per-customer limits need past order history, which a checkout function does not have; they are usually handled by order review or cancellation after the fact.</li>
@@ -78,7 +86,7 @@
   <h2>Sources</h2>
   <ul class="note">
     <li>Shopify Help Center, <a href="https://help.shopify.com/manual/b2b/catalogs/quantity-pricing" rel="nofollow">Setting up quantity rules and volume pricing in B2B</a> (minimum, maximum, increment; per-variant rule).</li>
-    <li>shopify.dev, <a href="https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation" rel="nofollow">Cart and Checkout Validation Function API</a> (errors block checkout; accelerated checkouts; draft orders; blockOnFailure; 25 per store).</li>
+    <li>shopify.dev, <a href="https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation" rel="nofollow">Cart and Checkout Validation Function API</a> (errors block checkout; accelerated checkouts; draft orders; blockOnFailure; 25 per store; cart subtotal "before taxes and cart-level discounts", checked 2026-11-16).</li>
     <li>shopify.dev, <a href="https://shopify.dev/docs/apps/build/checkout/cart-checkout-validation" rel="nofollow">Cart and checkout validation</a> ("can't be bypassed by customers").</li>
   </ul>
   <p class="note">All Shopify facts checked on 2026-11-11. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
