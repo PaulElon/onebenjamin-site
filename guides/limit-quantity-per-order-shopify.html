@@ -73,13 +73,14 @@
   <h2>What a per-order limit does not do</h2>
   <ul>
     <li><strong>It does not stop repeat orders.</strong> "Max 2 per order" lets the same person place a second order. Lifetime or per-customer limits need past order history, which a checkout function does not have; they are usually handled by order review or cancellation after the fact.</li>
-    <li><strong>Per product vs per variant.</strong> Decide whether "max 2" means 2 of each size or 2 across all sizes, and check that the tool you use counts the way you mean.</li>
+    <li><strong>Per product vs per variant.</strong> Decide whether "max 2" means 2 of each size or 2 across all sizes, and check that the tool you use counts the way you mean. A limit that counts each variant separately can be beaten by mixing sizes or colors: merchants report exactly that ("You are still able to add this item more than the limitation ... because it has multiple variants", <a href="https://community.shopify.com/t/limit-purchase-quantity-using-order-limits-min-max-app/154894" rel="nofollow">Shopify Community</a>).</li>
   </ul>
 
   <h2>The app option</h2>
   <div class="box">
     <p><strong>OneBen Order Limits</strong> is ours. It sets a minimum or maximum quantity for a product, a product tag, or the whole cart, plus a minimum order amount, with your own message. It runs as a cart and checkout validation function with <code>blockOnFailure</code> on, and no theme code.</p>
     <p><strong>Status, stated plainly:</strong> it is built and tested on a development store (a "max 1" rule rejected quantity 2 with the merchant's message), but it is <em>not yet in the Shopify App Store</em>, so you cannot install it yet. We have not yet tested it ourselves with Shop Pay or Apple Pay; the coverage above is what Shopify's docs state for all validation functions.</p>
+    <p>How it counts: a rule set on a <em>product</em> adds up every variant of that product in the cart, so "max 1" blocks one small plus one large. A rule set on a single <em>variant</em> counts only that variant. A tag rule adds up every line whose product has the tag.</p>
     <p class="note">What it does not do: lifetime or per-customer limits, and collection rules (use a product tag for now).</p>
   </div>
 
