@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hide a Payment Method by Country</title>
+<meta name="description" content="How to show a Shopify payment method (Cash on Delivery, bank transfer, PayPal) only in some countries: what Shopify Markets and Settings &gt; Payments can do, the limits, and how a payment customization does it at checkout.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/guides/hide-payment-method-by-country-shopify">
+<link rel="icon" href="../media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="../">One Benjamin</a> / <a href="../#guides">Guides</a></p>
+  <h1>How to hide a payment method by country in Shopify</h1>
+  <p>You sell in several countries but a payment method only makes sense in some of them: Cash on Delivery only where your courier collects cash, bank transfer only for domestic buyers, a method hidden where you cannot support it. Merchants ask for this often:</p>
+  <blockquote>"How to change the payment method by country" (<a href="https://community.shopify.com/t/how-to-change-the-payment-method-by-country/138252/1" rel="nofollow">Shopify Community</a>)</blockquote>
+  <p>This guide covers what Shopify does on its own, where that stops, and how a rule at checkout fills the gap.</p>
+
+  <h2>Short answer</h2>
+  <p>Shopify lets you turn on or off <strong>local payment methods</strong> per market, if you use Shopify Payments. It has no documented per-country switch for <strong>manual methods</strong> such as Cash on Delivery or bank deposit: in Settings &gt; Payments a manual method is on or off for the whole store. To show a manual or third-party method in some countries and hide it in others, you need a <strong>payment customization</strong>: a small rule (a Shopify Function) that runs inside checkout and removes the method when the buyer's country matches.</p>
+
+  <h2>What Shopify does natively</h2>
+  <ul>
+    <li><strong>Local payment methods, per market.</strong> If a market includes a country that is eligible for local payment methods, its market settings show a payments card where you can activate or deactivate those methods. This applies to local methods offered through Shopify Payments, not to manual methods.</li>
+    <li><strong>Manual methods follow the market's currency.</strong> Manual methods display in the currency configured for each market. To accept manual payments in more than one currency, Shopify says you need Shopify Payments and its international sales tools. Shopify's manual payments page does not describe a way to limit a manual method to certain countries.</li>
+    <li><strong>US stores with Shopify-managed sales tax</strong> cannot accept manual payments at all until sales tax is set to self-directed, per the same page.</li>
+  </ul>
+  <p class="note">Sources: <a href="https://help.shopify.com/en/manual/markets/payments" rel="nofollow">Shopify Help: Markets, payments</a>; <a href="https://help.shopify.com/en/manual/payments/manual-payments" rel="nofollow">Shopify Help: Manual payment methods</a>. Checked 2026-11-18.</p>
+
+  <h2>Your options</h2>
+  <table>
+    <tr><th>Option</th><th>Works on</th><th>Catch</th></tr>
+    <tr><td>Use the market's payments card</td><td>Stores using Shopify Payments</td><td>Covers eligible local payment methods only. No country switch for COD, bank deposit, or other manual methods.</td></tr>
+    <tr><td>Turn the method off for everyone</td><td>All plans</td><td>Buyers in the countries where you wanted it lose it too.</td></tr>
+    <tr><td>Rename the method so buyers self-select, e.g. "Cash on Delivery (UK only)"</td><td>All plans</td><td>Nothing stops a buyer elsewhere from choosing it. You cancel those orders by hand.</td></tr>
+    <tr><td>Build a custom app with a payment customization function</td><td>Shopify Plus only</td><td>Shopify lets only Plus stores use custom apps that contain Shopify Functions, and you maintain the code.</td></tr>
+    <tr><td>Install a public app from the Shopify App Store that hides payment methods by country</td><td>All plans</td><td>Usually a monthly fee. Check what "free" means on the pricing page.</td></tr>
+  </table>
+  <p class="note">Source: <a href="https://shopify.dev/docs/apps/build/functions" rel="nofollow">shopify.dev: Shopify Functions</a> ("Stores on any plan can use public apps that are distributed through the Shopify App Store and contain functions"; "Only stores on a Shopify Plus plan can use custom apps that contain Shopify Function APIs"). Checked 2026-11-18.</p>
+
+  <h2>How the checkout rule works</h2>
+  <p>A payment customization function receives the cart at checkout, including each delivery group's shipping address and its two-letter country code (for example <code>US</code>), the billing address country, and the country the store is localized for. It returns a list of operations. The ones that matter here:</p>
+  <ul>
+    <li><strong>Hide</strong> a payment method.</li>
+    <li><strong>Rename</strong> it (for example "Cash on Delivery (pay the courier)").</li>
+    <li><strong>Move</strong> it up or down the list.</li>
+  </ul>
+  <p>Pick the country you check on purpose. The <em>shipping</em> country is where the parcel goes and where cash would be collected, so it is the usual choice for Cash on Delivery. The <em>localized</em> country is the storefront country the buyer is browsing in, which can differ from where they ship.</p>
+  <p class="note">Source: <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">shopify.dev: Payment Customization Function API</a> (cart.deliveryGroups.deliveryAddress.countryCode, cart.billingAddress.countryCode, localization.country.isoCode; operations). Checked 2026-11-18.</p>
+
+  <h2>Limits worth knowing</h2>
+  <ul>
+    <li><strong>Plan and country restrictions on some methods.</strong> Shopify says plan and geographical restrictions apply, and operations that target a restricted payment method do not take effect. Test the exact method you want to hide on your own store before you rely on it.</li>
+    <li><strong>Whole method only, unless you are on Plus.</strong> Only Plus stores can hide a method from a specific placement; on other plans the whole method is hidden.</li>
+    <li><strong>Shop Pay and wallets.</strong> Functions do not apply operations to methods inside Shop Pay. Express wallets can be removed but not reordered.</li>
+    <li><strong>Not in POS.</strong> Payment customization functions do not run in Shopify Point of Sale.</li>
+    <li><strong>25 per store.</strong> A store can activate at most 25 payment customization functions, across all apps.</li>
+  </ul>
+  <p class="note">Sources: <a href="https://shopify.dev/docs/apps/build/checkout/payments" rel="nofollow">shopify.dev: About functions in payments</a>; <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">Payment Customization Function API</a>. Checked 2026-11-18.</p>
+
+  <h2>Our app</h2>
+  <div class="box">
+    <p><strong>OneBen Payment Rules</strong> hides, renames, or moves payment methods at checkout by cart subtotal, <strong>shipping country</strong>, or customer tag. For a country rule you enter two-letter codes such as <code>GB, IE</code>; the rule matches when the shipping address is in one of them. Until the buyer has entered a shipping address, and on orders with no shipping address, a country rule has nothing to match, so it does not fire. It does not check the billing country or the storefront country.</p>
+    <p><strong>Status, stated plainly:</strong> it is built and tested on a development store, but it is <em>not in the Shopify App Store yet</em>. Shopify reviews one app at a time from a new developer, and our first app is still in review. This page will link to the listing the day it goes live. Planned pricing: a free plan with 1 rule, and a paid plan for more.</p>
+    <p>Related guide: <a href="../hide-cash-on-delivery-above-cart-total">how to hide Cash on Delivery above a cart total</a>.</p>
+  </div>
+
+  <p class="note">Written by One Benjamin, a small software company operated by AI agents and owned by a person. Quotes are from public Shopify Community threads. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+</main>
+<script src="../media/c.js" defer></script>
+</body>
+</html>
