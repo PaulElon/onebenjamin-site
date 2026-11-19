@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exclude a Brand From Discounts</title>
+<meta name="description" content="How to keep one brand (vendor) out of a Shopify sale or discount code: the native vendor-exclusion collection, its limits, and the app option.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/guides/exclude-vendor-from-shopify-discount">
+<link rel="icon" href="../media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="../">One Benjamin</a> / Guides</p>
+  <h1>How to exclude a brand (vendor) from a Shopify discount</h1>
+  <p>You want a store-wide sale, but one brand must stay at full price. Often the reason is a brand agreement, such as a minimum advertised price policy, or a supplier whose margin cannot take 20% off. Shopify stores the brand in the product's <em>Vendor</em> field, and that is what you can build on.</p>
+
+  <h2>Short answer</h2>
+  <p>A Shopify amount-off discount has no "exclude" field. Under <em>Applies to</em> you can pick <strong>Specific products</strong> or <strong>Specific collections</strong>. So you build an automated collection of every product <em>except</em> that vendor, and point the discount at the collection. Vendor is one of the four condition types Shopify allows in a collection's <em>Exclude</em> section.</p>
+
+  <h2>The native workaround, step by step</h2>
+  <ol>
+    <li><strong>Check the exact vendor name.</strong> Open one of the brand's products and copy the Vendor value. The <em>is equal to</em> condition must exactly match the whole value, so "Acme" and "Acme Co." are different vendors.</li>
+    <li><strong>Create a collection called "Discount eligible".</strong> In <em>Products &gt; Collections</em>, add a Products source that includes your products by condition (for example, product status is equal to Active).</li>
+    <li><strong>Exclude the brand.</strong> In that source, open <em>Exclude</em> and add <em>Vendor is equal to</em> the name you copied. To protect several brands, add one vendor condition per brand. Shopify says exclusions always override inclusions.</li>
+    <li><strong>Point the discount at it.</strong> Create or edit the discount, set <em>Applies to</em> to <em>Specific collections</em>, and choose "Discount eligible". A code you already shared keeps working after you edit it.</li>
+  </ol>
+  <p>Because the collection is automated, new products from other vendors join it on their own, and new products from the protected brand stay out, as long as their Vendor field is spelled the same way.</p>
+
+  <h2>Limits of the workaround</h2>
+  <table>
+    <tr><th>Limit</th><th>What it means</th></tr>
+    <tr><td>Exact spelling</td><td><em>Is equal to</em> needs the whole value. If imports have left the brand under two spellings, either add both, or use <em>contains</em> (at least 3 characters, no leading or trailing spaces), which can also catch other vendors whose names share those letters.</td></tr>
+    <tr><td>"Match any" vs "Match all"</td><td>Shopify's own troubleshooting: with all conditions, a product must match none of the exclusion criteria; with any condition, a product is included if it fails at least one exclusion criterion. With two or more brand exclusions, "any" can let a protected brand back in. Use "Match all".</td></tr>
+    <tr><td>60 condition values per source</td><td>Plenty for a few brands, tight if you protect a long list of vendors.</td></tr>
+    <tr><td>One collection per exclusion set</td><td>A sale that excludes brand A and a code that excludes brand B need two "eligible" collections.</td></tr>
+    <tr><td>Codes set to all products</td><td>The exclusion does nothing until each existing discount is switched to <em>Specific collections</em>.</td></tr>
+    <tr><td>Stacking</td><td>Whether the discount combines with other discounts is a separate setting, in its <em>Combinations</em> section.</td></tr>
+  </table>
+  <p>If you also need to keep items already on sale out of the discount, see <a href="exclude-products-from-shopify-discount">How to exclude products from a Shopify discount</a>, which covers the compare-at price catches.</p>
+
+  <h2>The one-step option: an exclusion discount app</h2>
+  <p>Apps built on Shopify discount functions run custom discount logic inside checkout. A Shopify Function can read a product's tags and collection membership in the cart, so an exclusion app can skip a brand's lines without a helper collection on the discount itself.</p>
+  <div class="box">
+    <p><strong>OneBen Discount Excluder</strong> is ours. It creates a percentage or fixed-amount discount, automatic or code, with an optional minimum subtotal, that skips any products, collections, or tags you choose. It has no vendor field: to leave out a brand, exclude a tag you give that brand's products, or exclude a collection that holds them.</p>
+    <p><strong>Status, stated plainly:</strong> it was approved and listed on the Shopify App Store on November 17, 2026. <a href="https://apps.shopify.com/discount-excluder?utm_source=site&amp;utm_medium=guide&amp;utm_campaign=vendor">Install OneBen Discount Excluder from the Shopify App Store</a>. It costs $4.99 a month after a 7-day free trial, billed by Shopify. If one brand and one sale is all you need, the collection workaround above is free.</p>
+    <p class="note">What it does not do: it creates its own discounts; it does not add exclusions to a code you made in Shopify's discount screen. Tags match exactly, including capitalization.</p>
+  </div>
+
+  <p>Before a big sale, test how your discounts combine: <a href="bfcm-discount-test-cart-shopify">Black Friday discount check: build a test cart</a>.</p>
+
+  <h2>Sources</h2>
+  <ul class="note">
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/discounts/discount-types/percentage-fixed-amount" rel="nofollow">Amount off products discounts</a> (Applies to: Specific products, Specific collections; no exclusion option described).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/products/collections/conditions" rel="nofollow">Collection conditions</a> (vendor operators; is equal to must match the whole value; contains needs 3+ characters; only category, tag, type, and vendor apply to exclusions; Match all vs Match any with exclusions).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/products/collections/automated-collections/auto-sort" rel="nofollow">Automated collections</a> (exclusions override inclusions; 60 condition values per source).</li>
+    <li>shopify.dev, <a href="https://shopify.dev/docs/api/functions/latest/discount" rel="nofollow">Discount Function API</a> (Product fields inAnyCollection, hasAnyTag, vendor).</li>
+  </ul>
+  <p class="note">All Shopify facts checked on 2026-11-19. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Not legal advice about any brand agreement. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+</main>
+<script src="../media/c.js" defer></script>
+</body>
+</html>
