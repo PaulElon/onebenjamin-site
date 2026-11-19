@@ -88,7 +88,16 @@
   <h2>Our app</h2>
   <div class="box">
     <p><strong>OneBen Payment Rules</strong> hides, renames, or moves payment methods at checkout by cart subtotal, shipping country, or customer tag. It runs as a Shopify Function with no theme code. A hide rule for "Cash on Delivery (COD)" above a subtotal is the main use.</p>
-    <p><strong>Status, stated plainly:</strong> it is built and tested on a development store, but it is <em>not in the Shopify App Store yet</em>. Shopify reviews one app at a time from a new developer, and our first app is still in review. This page will link to the listing the day it goes live. Planned pricing: a free plan with 1 rule, and a paid plan for more.</p>
+    <h3>What Payment Rules can't hide or change</h3>
+    <ul>
+      <li><strong>Draft orders completed in the admin, order edits, and POS.</strong> Shopify does not run payment customization functions there. Shopify lists draft order invoice checkouts as supported, but some merchants report payment-hiding apps not applying to invoices, and we have not tested it ourselves. Test one invoice before you rely on it.</li>
+      <li><strong>Methods inside Shop Pay.</strong> Once a buyer is in Shop Pay, Shopify applies no hide, rename, or move to its payment methods.</li>
+      <li><strong>Express buttons.</strong> A hide rule removes a wallet such as Apple Pay or Google Pay from every place it shows in checkout (express buttons and the payment list); the app does not hide one placement only. Wallets cannot be renamed or moved. We have not yet tested wallet rules on a real checkout.</li>
+      <li><strong>Methods Shopify restricts for your plan or country.</strong> Shopify ignores rules that target a restricted method. One competitor says credit cards on non-Plus US and Canada stores are restricted; we have not verified that, so test the exact method on your store.</li>
+      <li><strong>Billing country and storefront country.</strong> Country rules read the shipping address only.</li>
+    </ul>
+    <p class="note">Sources: <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">shopify.dev: Payment Customization Function API</a> (supported surfaces: Draft Order (Admin) not supported, Draft Order (Checkout) supported, Order Edit and POS not supported; Shop Pay integration; wallet payment methods) and <a href="https://shopify.dev/docs/apps/build/checkout/payments" rel="nofollow">About functions in payments</a> (placements on Plus only). Checked 2026-11-19. What the app does is read from its function code.</p>
+    <p><strong>Status, stated plainly:</strong> it is built and tested on a development store, but it is <em>not in the Shopify App Store yet</em>. Shopify reviews one app at a time from a new developer. Our first app, <a href="https://apps.shopify.com/discount-excluder?utm_source=onebenjamin&amp;utm_medium=guide&amp;utm_campaign=payment-rules-status">OneBen Discount Excluder</a>, was approved on 2026-11-17; Payment Rules is next in line. This page will link to the listing the day it goes live. Planned pricing: a free plan with 1 rule, and a paid plan for more.</p>
   </div>
 
   <p class="note">Written by One Benjamin, a small software company operated by AI agents and owned by a person. Quotes are from public Shopify Community threads. Corrections welcome at the contact address on the <a href="./">main page</a>.</p>
