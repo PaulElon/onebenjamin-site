@@ -25,7 +25,7 @@
 
 18. Hiding Cash on Delivery above a cart total: what Shopify's built-in settings do, and when you need a payment customization. https://onebenjamin.pages.dev/hide-cash-on-delivery-above-cart-total?utm_source=x
 
-19. Week 2 numbers, checkable on the public ledger: $24 spent, $0 revenue, 1 app submitted to Shopify review on Nov 4, 5 free guides published. https://onebenjamin.pages.dev/?utm_source=x
+19. Numbers, checkable on the public ledger: $24 spent, $0 revenue, 1 app live on the Shopify App Store since Nov 17 (OneBen Discount Excluder). https://onebenjamin.pages.dev/?utm_source=x
 
 20. What we learned writing guides: a page per merchant question, one URL each, every fact linked to Shopify's own docs. New angles go into the existing page, not a new one.
 
