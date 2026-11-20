@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment Methods for Specific Customers</title>
+<meta name="description" content="How to offer a Shopify payment method (net terms, invoice, bank transfer) only to wholesale or VIP customers, or hide one from them: Shopify B2B, customer tags, the limits, and what a payment customization can do.">
+<link rel="canonical" href="https://onebenjamin.pages.dev/guides/payment-method-for-specific-customers-shopify">
+<link rel="icon" href="../media/avatar.png">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1b1b1b; --muted:#6b6b6b; --line:#e6e2d8; --accent:#1f6f4a; --card:#ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; } }
+  :root[data-theme="dark"] { --bg:#121311; --fg:#ececea; --muted:#9a9a95; --line:#2a2c28; --accent:#5fc08f; --card:#1a1c19; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 ui-serif, Georgia, "Times New Roman", serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:0 0 12px; }
+  h2 { font-size:1.25rem; margin:32px 0 10px; }
+  p, li { margin:0 0 12px; }
+  .note { font-size:.9rem; color:var(--muted); }
+  a { color:var(--accent); }
+  blockquote { margin:0 0 12px; padding:8px 16px; border-left:3px solid var(--line); color:var(--muted); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note"><a href="../">One Benjamin</a> / <a href="../#guides">Guides</a></p>
+  <h1>How to show or hide a payment method for specific customers in Shopify</h1>
+  <p>Some payment methods only make sense for some buyers. Wholesale accounts should be able to pay by invoice or on net 30 terms; retail shoppers should pay up front. Cash on Delivery may be fine for regulars and risky for everyone else. Shopify's payment settings are store-wide, so this takes a little setup. This guide covers what Shopify does on its own, where that stops, and what a checkout rule can and cannot do.</p>
+
+  <h2>Short answer</h2>
+  <ul>
+    <li><strong>To give wholesale buyers invoice or net terms:</strong> use Shopify B2B. It is built into the Basic, Grow, Advanced, and Plus plans (not Starter or Retail). You set up each wholesale buyer as a <em>company</em>, give its locations net 7 to net 90 payment terms, and the terms apply when they order through your online store. Retail shoppers never see them.</li>
+    <li><strong>To hide a method from a group of customers</strong> (for example, no Cash on Delivery for customers tagged <code>wholesale</code>): tag those customers, then use a <strong>payment customization</strong>, a small rule (a Shopify Function) that runs inside checkout, reads the signed-in customer's tags, and removes the method.</li>
+    <li><strong>To show a manual method such as bank transfer only to a group</strong> and hide it from everyone else: you need a rule that hides the method when the buyer is <em>not</em> tagged, which also hides it from guests. Shopify B2B is the native way to do this; a custom function can do it too.</li>
+  </ul>
+
+  <h2>What Shopify does natively</h2>
+  <ul>
+    <li><strong>Manual payment methods are on or off for the whole store.</strong> Cash on Delivery, bank transfer, money order, and custom manual methods are activated in Settings &gt; Payments. Shopify's manual payments page describes no way to limit one to certain customers.</li>
+    <li><strong>Shopify B2B (Basic, Grow, Advanced, Plus).</strong> Shopify says you can personalize the buying experience for each B2B customer, including payment and shipping methods. Net payment terms, payment reminders, and vaulted credit cards are on every B2B plan. Deposits and partial payments are Plus only.</li>
+    <li><strong>Payment terms per company location.</strong> In Customers &gt; Companies, open a company location and choose a payment term: no terms, net 7, 15, 30, 45, 60, or 90, or due on fulfillment. Buyers can pay an order early from their customer account with <em>Pay now</em>. Payments are not captured automatically when terms expire; you charge a saved card or record the manual payment yourself.</li>
+    <li><strong>Customer tags.</strong> On a customer's profile, the Tags section takes any label you choose, such as <code>VIP</code> or <code>wholesale</code>. You can also bulk edit tags across many customers. Tags alone change nothing at checkout; something has to read them.</li>
+  </ul>
+  <p class="note">Sources: <a href="https://help.shopify.com/en/manual/b2b/requirements" rel="nofollow">Shopify Help: Shopify B2B</a>; <a href="https://help.shopify.com/en/manual/b2b/getting-started/plan-features" rel="nofollow">Shopify B2B features by plan</a>; <a href="https://help.shopify.com/en/manual/b2b/payment-terms" rel="nofollow">Setting up payment terms in B2B</a>; <a href="https://help.shopify.com/en/manual/payments/manual-payments" rel="nofollow">Manual payment methods</a>; <a href="https://help.shopify.com/en/manual/customers/manage-customers" rel="nofollow">Managing customers</a>. Checked 2026-11-20.</p>
+
+  <h2>Your options</h2>
+  <table>
+    <tr><th>Option</th><th>Works on</th><th>Catch</th></tr>
+    <tr><td>Shopify B2B companies with payment terms</td><td>Basic, Grow, Advanced, Plus</td><td>Each wholesale buyer must be set up as a company and sign in. More setup than a tag, but it is Shopify's own feature and costs nothing extra.</td></tr>
+    <tr><td>Rename the method so buyers self-select, e.g. "Bank transfer (approved wholesale accounts only)"</td><td>All plans</td><td>Nothing stops anyone from choosing it. You cancel or chase those orders by hand.</td></tr>
+    <tr><td>Wholesale orders through draft orders you send as invoices</td><td>All plans</td><td>Manual work for every order.</td></tr>
+    <tr><td>Build a custom app with a payment customization function that reads customer tags</td><td>Shopify Plus only</td><td>Shopify lets only Plus stores use custom apps that contain Shopify Functions, and you maintain the code.</td></tr>
+    <tr><td>Install a public App Store app that hides payment methods by customer tag</td><td>All plans</td><td>Usually a monthly fee. Check which direction it supports: "hide for tagged customers" and "show only to tagged customers" are different rules.</td></tr>
+  </table>
+  <p class="note">Source: <a href="https://shopify.dev/docs/apps/build/functions" rel="nofollow">shopify.dev: Shopify Functions</a> (public App Store apps with functions work on any plan; custom apps with functions need Plus). Checked 2026-11-18.</p>
+
+  <h2>How the checkout rule reads customers</h2>
+  <p>A payment customization function receives the cart at checkout. Under <code>cart.buyerIdentity.customer</code> it can ask whether the customer has any of a list of tags (<code>hasAnyTag</code>) and whether the customer is signed in to their customer account (<code>isAuthenticated</code>). Shopify's own example uses <code>VIP</code> and <code>Wholesale</code> tags to decide which methods to show. The function then returns operations: <strong>hide</strong> a method, <strong>rename</strong> it, or <strong>move</strong> it in the list.</p>
+  <p>The catch is identity. A guest checkout has no customer, so a tag rule has nothing to read. If your rule is "hide Cash on Delivery for wholesale customers", a wholesale buyer who checks out as a guest still sees it. If your rule is "hide bank transfer unless the customer is tagged wholesale", guests never see it, which is usually what you want. Ask wholesale buyers to sign in before checkout either way.</p>
+  <p class="note">Source: <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">shopify.dev: Payment Customization Function API</a> (BuyerIdentity.customer, Customer.hasAnyTag, Customer.isAuthenticated, the VIP/Wholesale input example, operations). Checked 2026-11-20.</p>
+
+  <h2>Limits worth knowing</h2>
+  <ul>
+    <li><strong>Restricted methods.</strong> Shopify says plan and geographical restrictions apply to some payment methods, and operations that target a restricted method do not take effect. Test the exact method on your own store.</li>
+    <li><strong>Whole method only, unless you are on Plus.</strong> Only Plus stores can hide a method from one placement; on other plans the whole method is hidden.</li>
+    <li><strong>Setting payment terms from a function is Plus only.</strong> A function can attach payment terms to a checkout only on Shopify Plus. On other plans, use B2B company payment terms instead.</li>
+    <li><strong>Shop Pay, POS, and admin draft orders.</strong> Functions apply no operations to methods inside Shop Pay, and payment customizations do not run in POS or on draft orders completed in the admin.</li>
+  </ul>
+  <p class="note">Sources: <a href="https://shopify.dev/docs/apps/build/checkout/payments" rel="nofollow">shopify.dev: About functions in payments</a> (restricted methods, placements on Plus only, payment terms only on Plus); <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">Payment Customization Function API</a>. Checked 2026-11-20.</p>
+
+  <h2>Our app</h2>
+  <div class="box">
+    <p><strong>OneBen Payment Rules</strong> hides, renames, or moves payment methods at checkout by cart subtotal, shipping country, or customer tag. A tag rule fires when the signed-in customer has <em>any</em> of the tags you list. That covers the first direction: "hide Cash on Delivery for customers tagged <code>wholesale</code>", or "rename PayPal for <code>VIP</code> customers".</p>
+    <p><strong>What it does not do yet:</strong> it has no "customer is not tagged" condition, so it cannot show a method <em>only</em> to tagged customers and hide it from everyone else. For that, use Shopify B2B payment terms as above. In version 1, all tag rules share one list of tags. Guests are never matched by a tag rule. What the app does is read from its function code.</p>
+    <p><strong>Status, stated plainly:</strong> it is built and tested on a development store (its customer-tag rule has not yet been tested on a real checkout), and it is <em>not in the Shopify App Store yet</em>. Our first app, <a href="https://apps.shopify.com/discount-excluder?utm_source=onebenjamin&amp;utm_medium=guide&amp;utm_campaign=payment-customers-status">OneBen Discount Excluder</a>, was approved on 2026-11-17; Payment Rules is next in line. This page will link to the listing the day it goes live.</p>
+    <p>Related guides: <a href="hide-payment-method-by-country-shopify">hide a payment method by country</a>; <a href="../hide-cash-on-delivery-above-cart-total">hide Cash on Delivery above a cart total</a>.</p>
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="note">
+    <li><a href="https://help.shopify.com/en/manual/b2b/requirements" rel="nofollow">help.shopify.com/en/manual/b2b/requirements</a></li>
+    <li><a href="https://help.shopify.com/en/manual/b2b/getting-started/plan-features" rel="nofollow">help.shopify.com/en/manual/b2b/getting-started/plan-features</a></li>
+    <li><a href="https://help.shopify.com/en/manual/b2b/payment-terms" rel="nofollow">help.shopify.com/en/manual/b2b/payment-terms</a></li>
+    <li><a href="https://help.shopify.com/en/manual/payments/manual-payments" rel="nofollow">help.shopify.com/en/manual/payments/manual-payments</a></li>
+    <li><a href="https://help.shopify.com/en/manual/customers/manage-customers" rel="nofollow">help.shopify.com/en/manual/customers/manage-customers</a></li>
+    <li><a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">shopify.dev/docs/api/functions/latest/payment-customization</a></li>
+    <li><a href="https://shopify.dev/docs/apps/build/checkout/payments" rel="nofollow">shopify.dev/docs/apps/build/checkout/payments</a></li>
+    <li><a href="https://shopify.dev/docs/apps/build/functions" rel="nofollow">shopify.dev/docs/apps/build/functions</a> (checked 2026-11-18)</li>
+  </ul>
+
+  <p class="note">Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+</main>
+<script src="../media/c.js" defer></script>
+</body>
+</html>
