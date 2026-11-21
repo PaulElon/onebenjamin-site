@@ -32,9 +32,11 @@
   <p>You want "20% off everything except the new collection" or "this code should not work on items already on sale". Merchants ask for it all the time:</p>
   <blockquote>"No native way to exclude specific products or SKUs, only include them." (<a href="https://community.shopify.com/t/feature-request-allow-product-sku-exclusions-on-discounts/630912" rel="nofollow">Shopify Community</a>)</blockquote>
   <blockquote>"How to stop Shopify stacking discounts on items that are already on sale? Surely this should be native." (<a href="https://community.shopify.com/t/how-to-stop-discounts-codes-stacking-on-items-already-on-sale/608039" rel="nofollow">Shopify Community</a>)</blockquote>
+  <blockquote>"I created a discount code but I don’t want it to apply to discounted products. how can this be achieved?" (<a href="https://community.shopify.com/t/how-can-i-exclude-discounted-products-from-a-discount-code/186387" rel="nofollow">Shopify Community</a>)</blockquote>
 
   <h2>Short answer</h2>
   <p>A Shopify amount-off discount has no "exclude" field. Under <em>Applies to</em> you pick <strong>Specific products</strong> or <strong>Specific collections</strong>, or the discount applies to all products. So the native way to exclude items is to flip the problem: build a collection that holds everything <em>except</em> the items you want to protect, and point the discount at that collection.</p>
+  <p>An <strong>amount off order</strong> discount has no product selection at all: it reduces the whole order, sale items included. If you need exclusions, use an amount off <em>products</em> discount instead.</p>
 
   <h2>The native workaround, step by step</h2>
   <ol>
@@ -54,6 +56,13 @@
   <p>The reliable fix is a tag: tag sale items <code>sale</code> (by hand or with bulk edit) and exclude the tag.</p>
   <p>To keep a whole brand out instead, see <a href="exclude-vendor-from-shopify-discount">How to exclude a brand (vendor) from a Shopify discount</a>.</p>
 
+  <h2>Combinations do not exclude sale items</h2>
+  <p>A common mistake before a sale is to turn off <em>Combinations</em> and expect sale items to be safe. Combination settings only decide whether two discounts can stack. They do not stop a discount from applying to a product that is already marked down with a compare-at price. That still needs the tag or collection method above.</p>
+  <p>Get it wrong and shoppers notice at checkout. One store owner said it was "leading to abandoned checkouts, as customers are trying to apply discount codes but turning away when they receive an error from Shopify." (<a href="https://community.shopify.com/t/stacking-discount-codes-volume-discounts-and-shipping-discounts/396582" rel="nofollow">Shopify Community</a>)</p>
+
+  <h2>Codes vs automatic discounts</h2>
+  <p>Both kinds can target a collection, so the workaround works for either. Automatic discounts have fewer options than codes, though (for example, you cannot cap uses per customer), so pick the type first and check that the options you need are there.</p>
+
   <h2>Limits of the workaround</h2>
   <table>
     <tr><th>Limit</th><th>What it means</th></tr>
@@ -68,9 +77,9 @@
   <h2>The one-step option: an exclusion discount app</h2>
   <p>Apps built on Shopify discount functions run custom discount logic inside checkout. An exclusion app lets you set "X% off everything except these products, collections, or tags" on one screen, with no helper collection to maintain.</p>
   <div class="box">
-    <p><strong>OneBen Discount Excluder</strong> is ours. It creates a percentage or fixed-amount discount, automatic or code, with an optional minimum subtotal, that skips any products, collections, or tags you choose. It runs as a Shopify Function with no theme code.</p>
+    <p><strong>OneBen Discount Excluder</strong> is ours. It creates a percentage or fixed-amount discount, automatic or code, with an optional minimum subtotal and start and end dates, that skips any products, collections, or tags you choose. It runs as a Shopify Function with no theme code.</p>
     <p><strong>Status, stated plainly:</strong> it was approved and listed on the Shopify App Store on November 17, 2026. <a href="https://apps.shopify.com/discount-excluder?utm_source=site&amp;utm_medium=guide">Install OneBen Discount Excluder from the Shopify App Store</a>. It costs $4.99 a month after a 7-day free trial, billed by Shopify. If you only need one sale, the collection workaround above is free.</p>
-    <p class="note">What it does not do: it creates its own discounts; it does not add exclusions to a code you made in Shopify's discount screen. Tags match exactly, including capitalization.</p>
+    <p class="note">What it does not do: it creates its own discounts; it does not add exclusions to a code you made in Shopify's discount screen, and it does not detect sale prices on its own: tag or collect your sale items, then exclude that tag or collection. Tags match exactly, including capitalization.</p>
   </div>
 
   <p>Before a big sale, test how your discounts combine: <a href="bfcm-discount-test-cart-shopify">Black Friday discount check: build a test cart</a>.</p>
@@ -83,7 +92,7 @@
     <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/discounts/managing-discount-codes" rel="nofollow">Managing discounts</a> (editing an existing discount).</li>
     <li>shopify.dev, <a href="https://shopify.dev/docs/apps/build/discounts" rel="nofollow">Discounts</a> (discount functions run at checkout).</li>
   </ul>
-  <p class="note">All Shopify facts checked on 2026-11-11. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Quotes are from public Shopify Community threads. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+  <p class="note">All Shopify facts checked on 2026-11-11; combinations and codes sections added 2026-11-21. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Quotes are from public Shopify Community threads. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
 </main>
 <script src="../media/c.js" defer></script>
 </body>
