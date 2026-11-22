@@ -46,6 +46,14 @@
   </table>
   <p class="note">Sources: Shopify's developer docs, <a href="https://shopify.dev/docs/apps/build/checkout/payments" rel="nofollow">About functions in payments</a> ("plan and geographical restrictions apply"); merchant reports of the Plus-only error for functions in custom apps on the Shopify Community. Checked 2026-11-10.</p>
 
+  <h2>Which Shopify plans this works on</h2>
+  <p>Old forum answers say you need Shopify Plus. For a public app, Shopify's help center says otherwise:</p>
+  <ul>
+    <li><strong>Basic or higher.</strong> "Stores on the Basic plan or higher, but not on the Shopify Plus plan, still have access to payment method customization apps." Public apps built with Shopify Functions work on Basic and Plus; custom apps built with Functions are Plus only.</li>
+    <li><strong>United States and Canada, non-Plus:</strong> "these customizations are limited to non-credit card payment methods." Cash on Delivery is a manual method, not a credit card, so a COD rule is not blocked by this limit.</li>
+  </ul>
+  <p class="note">Source: Shopify Help Center, <a href="https://help.shopify.com/en/manual/checkout-settings/checkout-customization" rel="nofollow">Customizing payment methods and delivery options at checkout</a>, checked 2026-11-22.</p>
+
   <h2>How a payment customization rule works</h2>
   <ol>
     <li>The customer reaches checkout. Shopify runs the function with the cart: subtotal, currency, shipping country, and customer.</li>
@@ -56,10 +64,11 @@
 
   <h2>Things that trip people up</h2>
   <ul>
-    <li><strong>The name must match.</strong> The rule finds the method by the name customers see at checkout. "Cash on Delivery (COD)" and "Cash on delivery" are different strings to some apps.</li>
+    <li><strong>The name must match.</strong> The rule finds the method by the name customers see at checkout. "Cash on Delivery (COD)" is a name Shopify reserves for its own suggested COD method, so if you made a custom method instead (for example "Pay on delivery"), the rule must use that name.</li>
     <li><strong>Test with a second method on.</strong> In our own test, hiding a store's only payment method had no effect. Enable a card or bank method before you test.</li>
     <li><strong>Subtotal or total?</strong> Decide whether shipping and discounts count. Most rules use the subtotal.</li>
-    <li><strong>Currency.</strong> If you sell in several currencies, check how the app compares the amount.</li>
+    <li><strong>Currency.</strong> One merchant noticed that "by selecting COD the prices will automatically be reverted from the local currency to the store’s main currency." Shopify says manual methods display in each market's currency only with Shopify Payments and its international sales tools turned on. If you sell in several currencies, test your threshold in each one.</li>
+    <li><strong>Checkout only, not product pages.</strong> These rules act on the payment step of checkout. They do not remove buy buttons on product or cart pages.</li>
     <li><strong>Wallets.</strong> Shopify lets functions remove wallets such as Apple Pay but not reorder or rename them.</li>
   </ul>
 
@@ -74,8 +83,17 @@
     <li><strong>A fee product or fee app</strong> that adds a line item. Check what happens when a buyer switches from COD to card: some setups leave the fee in place, or add it only after the order is placed.</li>
     <li><strong>No fee, just a ceiling or a floor.</strong> If the fee is meant to cover refused parcels, hiding COD above a cart total (or below a small one) removes the riskiest orders without touching the total. This is the rule this guide is about.</li>
   </ul>
-  <p>Do not rename COD to mention a fee that is not actually charged. Buyers read the label as a promise.</p>
+  <p>Do not rename COD to mention a fee that is not actually charged. Buyers read the label as a promise. The same goes for partial COD (a deposit now, the rest at the door): hiding a method does not split a payment.</p>
   <p class="note">Sources: Shopify's developer docs, <a href="https://shopify.dev/docs/api/functions/latest/payment-customization" rel="nofollow">Payment Customization Function API</a> (operations: rename, reorder, hide, payment terms, review requirement), checked 2026-11-15; <a href="https://community.shopify.com/t/shopify-native-cod-cash-on-delivery-fee/683943" rel="nofollow">Shopify Community: "Shopify Native COD (Cash on Delivery) fee"</a>, September 2026.</p>
+
+  <h2>How to test a COD rule before Black Friday</h2>
+  <ol>
+    <li>Keep a second payment method on, then add items below your limit and go to checkout. COD should show.</li>
+    <li>Add items until the subtotal is above the limit. COD should disappear.</li>
+    <li>Apply a discount code that brings the cart back under the limit, and check the result matches the rule you wrote down.</li>
+    <li>Repeat for each country and currency you sell in.</li>
+  </ol>
+  <p class="note">Currency and reserved-name facts: Shopify Help Center, <a href="https://help.shopify.com/en/manual/payments/manual-payments" rel="nofollow">Manual payment methods</a>, checked 2026-11-22. Quote: Shopify Community, "Use local currency for COD", March 2025.</p>
 
   <h2>Limits worth knowing before you install anything</h2>
   <ul>
