@@ -86,6 +86,15 @@
     <li><strong>Per product vs per variant.</strong> Decide whether "max 2" means 2 of each size or 2 across all sizes, and check that the tool you use counts the way you mean. A limit that counts each variant separately can be beaten by mixing sizes or colors: merchants report exactly that ("You are still able to add this item more than the limitation ... because it has multiple variants", <a href="https://community.shopify.com/t/limit-purchase-quantity-using-order-limits-min-max-app/154894" rel="nofollow">Shopify Community</a>).</li>
   </ul>
 
+  <h2>Test before launch day</h2>
+  <p>On a development store, or with a hidden test product:</p>
+  <ol>
+    <li>Add one more than your limit and try to check out. You should see your message and be unable to pay.</li>
+    <li>Try again through a cart permalink and an express checkout button (Shop Pay, Apple Pay). Those skip your theme, so they are where theme-only limits leak.</li>
+    <li>Mix variants: if "max 2" means 2 across all sizes, put 1 small and 2 large in the cart and confirm it is blocked.</li>
+    <li>For a minimum order amount, apply an order discount that takes the total below your minimum and check the result matches the rule you wrote down.</li>
+  </ol>
+
   <h2>The app option</h2>
   <div class="box">
     <p><strong>OneBen Order Limits</strong> is ours. It sets a minimum or maximum quantity for a product, a product tag, or the whole cart, plus a minimum order amount, with your own message. It runs as a cart and checkout validation function with <code>blockOnFailure</code> on, and no theme code.</p>
@@ -100,7 +109,7 @@
     <li>shopify.dev, <a href="https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation" rel="nofollow">Cart and Checkout Validation Function API</a> (errors block checkout; accelerated checkouts; draft orders; blockOnFailure; 25 per store; cart subtotal "before taxes and cart-level discounts", checked 2026-11-16).</li>
     <li>shopify.dev, <a href="https://shopify.dev/docs/apps/build/checkout/cart-checkout-validation" rel="nofollow">Cart and checkout validation</a> ("can't be bypassed by customers").</li>
   </ul>
-  <p class="note">All Shopify facts checked on 2026-11-11. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
+  <p class="note">All Shopify facts checked on 2026-11-11; test steps added 2026-11-23. Related: <a href="limit-one-per-customer-shopify">how to limit a product to one per customer</a>. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
 </main>
 <script src="../media/c.js" defer></script>
 </body>

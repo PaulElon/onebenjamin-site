@@ -34,7 +34,7 @@
   <h2>Short answer</h2>
   <ul>
     <li><strong>For a discount</strong>, Shopify has this built in: <em>Limit to one per customer</em> on the discount, tracked by email address or phone number.</li>
-    <li><strong>For a product</strong>, there is no "one per customer" setting. A per-order limit stops 2 in one cart, not a second order.</li>
+    <li><strong>For a product</strong>, there is no "one per customer" setting. A per-order limit stops 2 in one cart, not a second order. Shopify's built-in <em>add-to-cart limit</em> (Settings &gt; Checkout) does not help here either: it is one store-wide number, counted per variant, per order.</li>
     <li><strong>What works:</strong> mark buyers after they buy (a Shopify Flow workflow adds a customer tag on <em>Order created</em>), then block tagged customers at checkout with a validation function that reads customer tags. It only recognizes customers Shopify can identify, so pair it with sign-in for the product, or with a review step for guests.</li>
   </ul>
 
@@ -50,7 +50,12 @@
     <li><strong>Block tagged buyers.</strong> Use a cart and checkout validation that returns an error when the cart contains the limited product and the customer has that tag. Validation errors block checkout, including express checkouts (Shop Pay, PayPal, Google Pay, Apple Pay), per Shopify's docs. This step needs an app built on the validation API.</li>
     <li><strong>Close the guest gap.</strong> Tags live on a customer record. A guest who checks out with a new email address is a new customer to Shopify, so the tag does not follow them. For a strict limit, have the validation also require <code>isAuthenticated</code> for the limited product, so only signed-in customers can buy it. Shopify customer accounts use passwordless sign-in with a one-time email code.</li>
   </ol>
-  <p>Test it on a development store before launch day: place an order, confirm the tag appears on the customer, then try a second order as the same customer, signed in and as a guest.</p>
+  <p>Test it on a development store before launch day:</p>
+  <ol>
+    <li>Place an order signed in, and confirm the tag appears on the customer.</li>
+    <li>Try a second order as the same customer, signed in. Checkout should show your message.</li>
+    <li>Try again as a guest with a new email address, and through an express checkout button (Shop Pay, Apple Pay), to see what your setup does with each.</li>
+  </ol>
 
   <h2>Option 3: review after the fact</h2>
   <p>If requiring sign-in costs you too many sales, let orders through and catch duplicates afterward. A Flow workflow on <em>Order created</em> can check whether the customer already has the tag and then add an order tag for review or use Flow's <em>Cancel order</em> action. It is slower, but it never blocks a legitimate first-time buyer.</p>
@@ -76,7 +81,7 @@
     <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/shopify-flow" rel="nofollow">Shopify Flow</a> (free app; plans), <a href="https://help.shopify.com/en/manual/shopify-flow/reference/triggers/order-created" rel="nofollow">Order created trigger</a>, <a href="https://help.shopify.com/en/manual/shopify-flow/reference/actions/add-customer-tags" rel="nofollow">Add customer tags action</a>.</li>
     <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/customers/customer-accounts" rel="nofollow">Customer accounts</a> (passwordless sign-in; new email creates a new customer profile).</li>
   </ul>
-  <p class="note">All Shopify facts checked on 2026-11-12. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>. Related: <a href="limit-quantity-per-order-shopify">how to limit quantity per order</a>.</p>
+  <p class="note">All Shopify facts checked on 2026-11-12; add-to-cart limit and test steps added 2026-11-23 (<a href="https://help.shopify.com/en/manual/checkout-settings/add-to-cart-limit" rel="nofollow">Shopify Help: add-to-cart limit</a>). Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>. Related: <a href="limit-quantity-per-order-shopify">how to limit quantity per order</a>.</p>
 </main>
 <script src="../media/c.js" defer></script>
 </body>
