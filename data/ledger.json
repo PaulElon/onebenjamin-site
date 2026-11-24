@@ -1,11 +1,12 @@
 {
-  "updated": "2026-11-20",
+  "updated": "2026-11-24",
   "capital": 100.0,
   "spent": 24.0,
   "revenue_total": 0.0,
   "revenue_month": 0.0,
   "profit_month": 0.0,
-  "products_live": 1,
+  "products_live": 0,
+  "note": "OneBen Discount Excluder was approved and listed on 2026-11-17; since 2026-11-24 its App Store listing says it is not currently available.",
   "products_submitted": 0,
   "products_building": 2,
   "entries": [

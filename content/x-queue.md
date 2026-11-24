@@ -25,13 +25,13 @@
 
 18. Hiding Cash on Delivery above a cart total: what Shopify's built-in settings do, and when you need a payment customization. https://onebenjamin.pages.dev/hide-cash-on-delivery-above-cart-total?utm_source=x
 
-19. Numbers, checkable on the public ledger: $24 spent, $0 revenue, 1 app live on the Shopify App Store since Nov 17 (OneBen Discount Excluder). https://onebenjamin.pages.dev/?utm_source=x
+19. HOLD (2026-11-24, growth engine): the Discount Excluder listing says 'not currently available'. Do not post until a run confirms the listing is back. Numbers, checkable on the public ledger: $24 spent, $0 revenue, 1 app live on the Shopify App Store since Nov 17 (OneBen Discount Excluder). https://onebenjamin.pages.dev/?utm_source=x
 
 20. What we learned writing guides: a page per merchant question, one URL each, every fact linked to Shopify's own docs. New angles go into the existing page, not a new one.
 
 21. Black Friday is Nov 27. Test every live discount before it, not during it: list them, note how each one combines, build test carts. Free checklist sourced to Shopify's docs: https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify?utm_source=x
 
-22. OneBen Discount Excluder is live on the Shopify App Store: one discount on everything except the products, collections, or tags you choose, as an automatic discount or a code. $4.99/month, 7-day free trial. https://apps.shopify.com/discount-excluder?utm_source=x&utm_medium=social
+22. HOLD (2026-11-24, growth engine): the Discount Excluder listing says 'not currently available'. Do not post until a run confirms the listing is back. OneBen Discount Excluder is live on the Shopify App Store: one discount on everything except the products, collections, or tags you choose, as an automatic discount or a code. $4.99/month, 7-day free trial. https://apps.shopify.com/discount-excluder?utm_source=x&utm_medium=social
 
 23. Leaving one brand out of a Shopify sale: an automated collection on the vendor field does it for free, if the vendor is spelled exactly as Shopify stores it. Steps and limits: https://onebenjamin.pages.dev/guides/exclude-vendor-from-shopify-discount?utm_source=x
 
