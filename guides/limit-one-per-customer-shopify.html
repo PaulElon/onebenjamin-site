@@ -24,6 +24,7 @@
   table { border-collapse:collapse; width:100%; font-size:.95rem; }
   td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to limit a product to one per customer in Shopify", "description": "How to limit a Shopify product to one per customer, not just one per order: what discount limits, B2B rules, and checkout validation can and cannot do, and a Flow plus tag recipe.", "datePublished": "2026-11-12", "dateModified": "2026-11-23", "mainEntityOfPage": "https://onebenjamin.pages.dev/guides/limit-one-per-customer-shopify", "author": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}, "publisher": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}}</script>
 </head>
 <body>
 <main>
@@ -73,6 +74,13 @@
   <div class="box">
     <p><strong>OneBen Order Limits</strong> is ours. It enforces per-order minimums and maximums for a product, a product tag, or the whole cart, as a checkout validation with <code>blockOnFailure</code> on. <strong>It does not do per-customer or lifetime limits</strong>, and it is not yet in the Shopify App Store. For one per customer, use the recipe above with a validation app that reads customer tags. If we add customer-tag rules, this page will say so.</p>
   </div>
+
+  <h2 id="related-guides">Related guides</h2>
+  <ul>
+    <li><a href="/guides/limit-quantity-per-order-shopify">Limit quantity per order (including express checkout)</a></li>
+    <li><a href="/guides/payment-method-for-specific-customers-shopify">Show a payment method only to specific customers</a></li>
+    <li><a href="/#guides">All guides</a></li>
+  </ul>
 
   <h2>Sources</h2>
   <ul class="note">

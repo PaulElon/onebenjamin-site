@@ -24,6 +24,7 @@
   table { border-collapse:collapse; width:100%; font-size:.95rem; }
   td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to limit quantity per order in Shopify (including express checkout)", "description": "How to set a maximum or minimum quantity, or a minimum order amount, in Shopify, why theme-only limits can be skipped, and how checkout validation covers Shop Pay and Apple Pay.", "datePublished": "2026-11-11", "dateModified": "2026-11-23", "mainEntityOfPage": "https://onebenjamin.pages.dev/guides/limit-quantity-per-order-shopify", "author": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}, "publisher": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}}</script>
 </head>
 <body>
 <main>
@@ -102,6 +103,13 @@
     <p>How it counts: a rule set on a <em>product</em> adds up every variant of that product in the cart, so "max 1" blocks one small plus one large. A rule set on a single <em>variant</em> counts only that variant. A tag rule adds up every line whose product has the tag.</p>
     <p class="note">What it does not do: lifetime or per-customer limits, and collection rules (use a product tag for now).</p>
   </div>
+
+  <h2 id="related-guides">Related guides</h2>
+  <ul>
+    <li><a href="/guides/limit-one-per-customer-shopify">Limit a product to one per customer</a></li>
+    <li><a href="/guides/bfcm-discount-test-cart-shopify">Black Friday discount check: build a test cart</a></li>
+    <li><a href="/#guides">All guides</a></li>
+  </ul>
 
   <h2>Sources</h2>
   <ul class="note">

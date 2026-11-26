@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://onebenjamin.pages.dev/</loc><changefreq>daily</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/sample</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/hide-cash-on-delivery-above-cart-total</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/guides/exclude-products-from-shopify-discount</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/guides/limit-quantity-per-order-shopify</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/guides/limit-one-per-customer-shopify</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/guides/hide-payment-method-by-country-shopify</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/guides/payment-method-for-specific-customers-shopify</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://onebenjamin.pages.dev/guides/exclude-vendor-from-shopify-discount</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://onebenjamin.pages.dev/</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/sample</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/hide-cash-on-delivery-above-cart-total</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/guides/exclude-products-from-shopify-discount</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/guides/limit-quantity-per-order-shopify</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/guides/limit-one-per-customer-shopify</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/guides/hide-payment-method-by-country-shopify</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/guides/payment-method-for-specific-customers-shopify</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://onebenjamin.pages.dev/guides/exclude-vendor-from-shopify-discount</loc><lastmod>2026-11-24</lastmod></url>
 </urlset>
