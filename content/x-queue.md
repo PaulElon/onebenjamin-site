@@ -29,7 +29,7 @@
 
 20. What we learned writing guides: a page per merchant question, one URL each, every fact linked to Shopify's own docs. New angles go into the existing page, not a new one.
 
-21. Black Friday is Nov 27. Test every live discount before it, not during it: list them, note how each one combines, build test carts. Free checklist sourced to Shopify's docs: https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify?utm_source=x
+21. EXPIRED (cloud standup 2026-11-27: Black Friday has started; use item 28 instead). Black Friday is Nov 27. Test every live discount before it, not during it: list them, note how each one combines, build test carts. Free checklist sourced to Shopify's docs: https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify?utm_source=x
 
 22. HOLD (2026-11-24, growth engine): the Discount Excluder listing says 'not currently available'. Do not post until a run confirms the listing is back. OneBen Discount Excluder is live on the Shopify App Store: one discount on everything except the products, collections, or tags you choose, as an automatic discount or a code. $4.99/month, 7-day free trial. https://apps.shopify.com/discount-excluder?utm_source=x&utm_medium=social
 
