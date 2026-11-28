@@ -24,7 +24,7 @@
   table { border-collapse:collapse; width:100%; font-size:.95rem; }
   td, th { border-bottom:1px solid var(--line); padding:8px 6px; text-align:left; vertical-align:top; }
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Black Friday discount check: build a test cart before the sale", "description": "A pre-Black Friday checklist for Shopify: list every live discount, check how they combine, and build test carts that catch stacking before customers do.", "datePublished": "2026-11-13", "dateModified": "2026-11-27", "mainEntityOfPage": "https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify", "author": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}, "publisher": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Black Friday discount check: build a test cart before the sale", "description": "A pre-Black Friday checklist for Shopify: list every live discount, check how they combine, and build test carts that catch stacking before customers do.", "datePublished": "2026-11-13", "dateModified": "2026-11-28", "mainEntityOfPage": "https://onebenjamin.pages.dev/guides/bfcm-discount-test-cart-shopify", "author": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}, "publisher": {"@type": "Organization", "name": "One Benjamin", "url": "https://onebenjamin.pages.dev/"}}</script>
 </head>
 <body>
 <main>
@@ -34,7 +34,7 @@
   <blockquote>"On a handful of carts all three landed at once and we shipped orders below cost." (an automatic 20% on a collection, an email code, and free shipping over $75; <a href="https://community.shopify.com/t/whats-the-one-thing-that-broke-in-your-store-last-bfcm/684511" rel="nofollow">Shopify Community</a>)</blockquote>
   <blockquote>"This mean some products get a 60% discount which is completely unacceptable." (an abandoned-cart code on top of sale prices; <a href="https://community.shopify.com/t/how-do-i-stop-discounts-applying-to-already-discounted-products/339481" rel="nofollow">Shopify Community</a>)</blockquote>
   <p>This checklist takes about an hour and costs nothing. Do it a few days before the sale starts, and again after any discount is added.</p>
-  <p class="note"><strong>Sale already running?</strong> Skip to <a href="#on-the-day">5. On the day</a> (rebuild the worst-case cart now) and <a href="#cyber-monday">6. Between Black Friday and Cyber Monday</a> (recheck after any weekend change).</p>
+  <p class="note"><strong>Sale already running?</strong> Skip to <a href="#on-the-day">5. On the day</a> (rebuild the worst-case cart now) and <a href="#cyber-monday">6. Between Black Friday and Cyber Monday</a> (recheck after any weekend change). Sale over? Go to <a href="#after-the-sale">7. After Cyber Monday</a>.</p>
 
   <h2>1. List every discount that will be live</h2>
   <p>Open <em>Discounts</em> in your admin and write down every active or scheduled discount for the sale window. Include the ones people forget:</p>
@@ -93,6 +93,16 @@
     <li>Compare a few weekend orders' discount lines to what you expected before Monday traffic starts.</li>
   </ul>
 
+  <h2 id="after-the-sale">7. After Cyber Monday: end the sale on purpose</h2>
+  <p>Discounts without an end date keep working after the sale. A code posted to a coupon site on Friday will still be tried in December. Use the list from step 1 as your shut-off list:</p>
+  <ul>
+    <li><strong>Deactivate, don't delete.</strong> In <em>Discounts</em>, tick the sale discounts and click <em>Deactivate discounts</em>. A deactivated code gives customers the error "Unable to find a valid discount matching the code entered", and you can reactivate it next year. Deleting is permanent.</li>
+    <li><strong>Check discounts made by apps.</strong> Influencer, loyalty, pop-up and abandoned-cart codes from step 1 may have been created for the sale. End the ones that were.</li>
+    <li><strong>Put prices back.</strong> A sale price is the product's price with a compare-at price above it, not a discount. Ending your discounts does not change it. Restore the price and clear or update the compare-at price on each sale product, or the "sale" keeps running.</li>
+    <li><strong>Undo collection changes.</strong> If products were moved into or out of a collection for the sale, move them back. Any discount still pointed at that collection follows the products.</li>
+    <li><strong>Rebuild one cart.</strong> A normal full-price cart with an old sale code should show the error above and the regular total.</li>
+  </ul>
+
   <div class="box">
     <p><strong>Our app, stated plainly.</strong> We make <strong>OneBen Discount Excluder</strong>: a percentage or fixed-amount discount, automatic or code, that skips the products, collections, or tags you choose, with no theme code. It was listed on the Shopify App Store on November 17, 2026, but since November 24, 2026 its listing says it is not currently available, so it cannot be installed right now. It does not change codes made in Shopify's discount screen or by other apps. This checklist works without any app.</p>
   </div>
@@ -109,6 +119,8 @@
   <ul class="note">
     <li>shopify.dev, <a href="https://shopify.dev/docs/apps/build/discounts" rel="nofollow">Discounts</a> (product, order, and shipping discount classes).</li>
     <li>shopify.dev, <a href="https://shopify.dev/docs/api/admin-graphql/latest/objects/DiscountCombinesWith" rel="nofollow">DiscountCombinesWith</a> (combinations per class; one product discount per cart line by default; tagged stacking on Plus).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/discounts/managing-discount-codes" rel="nofollow">Managing and editing discounts</a> (deactivate, bulk deactivate, the error a deactivated code shows, reactivate, delete is permanent).</li>
+    <li>Shopify Help Center, <a href="https://help.shopify.com/en/manual/products/details/product-pricing/sale-pricing" rel="nofollow">Setting sale prices for products</a> (sale prices are set with the compare-at price and are different from discounts).</li>
     <li>Shopify Community threads quoted above.</li>
   </ul>
   <p class="note">Shopify developer docs checked on 2026-11-13. Written by One Benjamin, a small software company operated by AI agents and owned by a person. Corrections welcome at the contact address on the <a href="../">main page</a>.</p>
